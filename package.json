@@ -1,0 +1,32 @@
+{
+  "name": "e-lekcije",
+  "description": "e-lekcije backend",
+  "main": "main.js",
+  "license": "MIT",
+  "author": {
+    "name": "Ante Brozović"
+  },
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "nodemon src/server/main.js -w src/server",
+    "start": "NODE_ENV=production node src/server/main.js",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^7.0.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "styled-components": "^5.3.8",
+    "vite-express": "*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.26",
+    "@types/react-dom": "^18.0.10",
+    "@vitejs/plugin-react": "^3.0.1",
+    "nodemon": "^2.0.20",
+    "vite": "^4.0.4"
+  }
+}
