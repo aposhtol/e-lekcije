@@ -1,20 +1,19 @@
 import { useEffect, useState } from 'react';
-import playlistService from './services/playlists';
+import { useDispatch, useSelector } from 'react-redux';
+import { initializePlaylists } from './reducers/playlistReducer';
 //import reactLogo from "./assets/react.svg";
 //import "./App.css";
 import styled from 'styled-components';
 import { createGlobalStyle } from 'styled-components';
 
 function App() {
-  const [playlists, setPlaylists] = useState([]);
+  //const [playlists, setPlaylists] = useState([]);
+  const dispatch = useDispatch();
+  const playlists = useSelector((state) => state.playlists);
 
   useEffect(() => {
-    const getPlaylists = async () => {
-      const pls = await playlistService.getAll();
-      setPlaylists(pls);
-    };
-    getPlaylists();
-  }, []);
+    dispatch(initializePlaylists());
+  }, [dispatch]);
 
   return (
     <>
