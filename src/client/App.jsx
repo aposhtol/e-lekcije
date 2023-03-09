@@ -1,31 +1,34 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { initializePlaylists } from './reducers/playlistReducer';
+import Playlists from './components/Playlists';
+import { Routes, Route, useNavigate } from 'react-router-dom';
+import Home from './components/Home';
 //import reactLogo from "./assets/react.svg";
 //import "./App.css";
 import styled from 'styled-components';
 import { createGlobalStyle } from 'styled-components';
 
-function App() {
-  //const [playlists, setPlaylists] = useState([]);
+const App = () => {
   const dispatch = useDispatch();
-  const playlists = useSelector((state) => state.playlists);
 
   useEffect(() => {
     dispatch(initializePlaylists());
   }, [dispatch]);
 
+  const [grade, setGrade] = useState(null);
+
+  const handleGradeChange = (grade) => setGrade(grade);
+
   return (
     <>
-      <div>
-        Playlists:
-        {playlists.map((playlist) => (
-          <li key={playlist.id}>{playlist.playlistId}</li>
-        ))}
-      </div>
+      <Routes>
+        <Route path='/' element={<Home onGradeChange={handleGradeChange} />} />
+        <Route path='/playlists' element={<Playlists grade={grade} />} />
+      </Routes>
     </>
   );
-}
+};
 
 export default App;
 
