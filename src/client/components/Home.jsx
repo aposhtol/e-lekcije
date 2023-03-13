@@ -1,18 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { resetGrades, selectGrade } from '../reducers/gradesReducer';
-import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const Home = ({ onGradeChange }) => {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
   const grades = useSelector((state) => state.grades);
+  const navigate = useNavigate();
 
   const handleClick = (gr) => {
     onGradeChange(gr);
     navigate('/playlists');
-    dispatch(resetGrades());
   };
 
   return (
@@ -32,8 +27,8 @@ const Home = ({ onGradeChange }) => {
       <div>
         {grades
           .filter((gr) => gr.type === 'high')
-          .map((gr, index) => (
-            <div key={index} onClick={() => handleClick(gr)}>
+          .map((gr) => (
+            <div key={crypto.randomUUID()} onClick={() => handleClick(gr)}>
               {gr.name}
             </div>
           ))}

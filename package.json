@@ -1,13 +1,13 @@
 {
   "name": "e-lekcije",
-  "description": "e-lekcije backend",
+  "description": "e-lekcije application",
   "main": "main.js",
   "license": "MIT",
   "author": {
     "name": "Ante Brozović"
   },
   "private": true,
-  "version": "0.0.1",
+  "version": "0.1.0",
   "scripts": {
     "dev": "nodemon src/server/main.js -w src/server",
     "start": "NODE_ENV=production node src/server/main.js",
@@ -23,8 +23,10 @@
     "morgan": "^1.10.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-player": "^2.12.0",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.8.2",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
     "styled-components": "^5.3.8",
     "vite-express": "*"

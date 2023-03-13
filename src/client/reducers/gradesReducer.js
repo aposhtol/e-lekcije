@@ -41,6 +41,5 @@ export const resetGrades = () => {
   };
 };
 
-//export const gradesCopy = (state) => [...state.grades];
 export const { setGrade, reset } = gradesReducer.actions;
 export default gradesReducer.reducer;
