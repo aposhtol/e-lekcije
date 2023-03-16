@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { initializePlaylists } from './reducers/playlistReducer';
+import { Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Main from './components/Main';
 import Playlists from './components/Playlists';
-import { Routes, Route, useNavigate } from 'react-router-dom';
-import Home from './components/Home';
 import Older from './components/Older';
 import Videolist from './components/Videolist';
 import PlayerView from './components/PlayerView';
+import About from './components/About';
 
-// styled-components
+// styles
 import { createGlobalStyle } from 'styled-components';
 
 const App = () => {
@@ -50,8 +52,10 @@ const App = () => {
 
   return (
     <>
+      <GlobalStyles />
+      <Header />
       <Routes>
-        <Route path='/' element={<Home onGradeChange={handleGradeChange} />} />
+        <Route path='/' element={<Main onGradeChange={handleGradeChange} />} />
         <Route
           path='playlists'
           element={<Playlists grade={grade} newList={newList} />}
@@ -64,9 +68,29 @@ const App = () => {
         />
         <Route path='older/:id' element={<Videolist />} />
         <Route path='older/:id/:id' element={<PlayerView />} />
+        <Route path='about' element={<About />} />
       </Routes>
     </>
   );
 };
 
 export default App;
+
+const GlobalStyles = createGlobalStyle`
+*,
+*::before,
+*::after {
+font-size: 62.5%;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
+
+body {
+background-color: #6ecaff;
+//background-color: #1d3fd4;
+//background: linear-gradient(to right, #8CA6DB, #B993D6);
+line-height: 1.5;
+font-family: 'Courgette', cursive;
+}
+`;
