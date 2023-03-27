@@ -40,6 +40,7 @@ const Head = styled.header`
   display: flex;
   position: fixed;
   top: 0;
+  left: 0;
   width: 100%;
   flex-wrap: wrap;
   justify-content: space-around;
@@ -55,12 +56,16 @@ const Head = styled.header`
 `;
 
 const Logo = styled.h1`
-  font-size: 4.8rem;
+  font-size: 3.6rem;
   font-family: 'Shadows Into Light', cursive;
-  padding: 2rem;
+  padding-bottom: 0.8rem;
+  padding-top: 0.5rem;
   //padding-left: 10rem;
   color: #1034a6;
   text-shadow: 0px 0px 10px rgba(55, 16, 166, 0.5);
+  &:hover {
+    color: #107fa6;
+  }
 
   animation: ${popOut} 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `;
@@ -76,7 +81,7 @@ const Nav = styled.nav`
 `;
 
 const StyledLink = styled(Link)`
-  font-size: 2.2rem;
+  font-size: 1.8rem;
   color: #1443d5;
   cursor: pointer;
   text-decoration: none;
@@ -84,7 +89,7 @@ const StyledLink = styled(Link)`
   //height: 100%;
   text-shadow: 0px 0px 5px rgba(125, 148, 219, 0.5);
   &:hover {
-    color: #000000;
+    color: #107fa6;
   }
 `;
 

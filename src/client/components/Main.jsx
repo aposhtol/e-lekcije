@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
 import bgiHigh from '../assets/images/alexander-grey-eMP4sYPJ9x0-unsplash.jpg';
 import bgiElem from '../assets/images/leohoho-rngTKHXumy0-unsplash.jpg';
+
 const Home = ({ onGradeChange }) => {
   const grades = useSelector((state) => state.grades);
   const navigate = useNavigate();
@@ -20,42 +21,40 @@ const Home = ({ onGradeChange }) => {
   }, []);
 
   return (
-    <>
-      <Container>
-        <Div bgi={bgiElem}>Osnovna škola</Div>
-        <Grid>
-          {grades
-            .filter((gr) => gr.type === 'elem')
-            .map((gr) => (
-              <GridItem
-                animated={animated}
-                onMouseOver={() => setAnimated(false)}
-                key={crypto.randomUUID()}
-                onClick={() => handleClick(gr)}
-              >
-                {gr.name}
-              </GridItem>
-            ))}
-        </Grid>
+    <Container>
+      <Div bgi={bgiElem}>Osnovna škola</Div>
+      <Grid>
+        {grades
+          .filter((gr) => gr.type === 'elem')
+          .map((gr) => (
+            <GridItem
+              animated={animated}
+              onMouseOver={() => setAnimated(false)}
+              key={crypto.randomUUID()}
+              onClick={() => handleClick(gr)}
+            >
+              {gr.name}
+            </GridItem>
+          ))}
+      </Grid>
 
-        <br />
-        <Div bgi={bgiHigh}>Srednja škola (gimnazija)</Div>
-        <Grid>
-          {grades
-            .filter((gr) => gr.type === 'high')
-            .map((gr) => (
-              <GridItem
-                animated={animated}
-                onMouseOver={() => setAnimated(false)}
-                key={crypto.randomUUID()}
-                onClick={() => handleClick(gr)}
-              >
-                {gr.name}
-              </GridItem>
-            ))}
-        </Grid>
-      </Container>
-    </>
+      <br />
+      <Div bgi={bgiHigh}>Srednja škola (gimnazija)</Div>
+      <Grid>
+        {grades
+          .filter((gr) => gr.type === 'high')
+          .map((gr) => (
+            <GridItem
+              animated={animated}
+              onMouseOver={() => setAnimated(false)}
+              key={crypto.randomUUID()}
+              onClick={() => handleClick(gr)}
+            >
+              {gr.name}
+            </GridItem>
+          ))}
+      </Grid>
+    </Container>
   );
 };
 
@@ -66,7 +65,7 @@ const hoverItem = keyframes`
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }
   100% {
-    box-shadow: 0 0 20px 0px rgba(0, 0, 0, 0.35);
+    box-shadow: 0 0 20px 10px rgba(0, 140, 255, 0.507);
   }
 `;
 
@@ -122,33 +121,49 @@ const slideDiv = keyframes`
 `;
 
 const Container = styled.main`
-  width: 80vw;
+  width: 139.6rem;
+  //width: 73.5%;
   height: 100%;
   margin: 0 auto;
-  margin-top: 16rem;
-  overflow-x: visible;
+  margin-top: 11rem;
+  //overflow-x: visible;
+  @media only screen and (max-width: 1440px) {
+    width: 92.4rem;
+  }
+  @media only screen and (max-width: 960px) {
+    width: 68.8rem;
+  }
+  @media only screen and (max-width: 720px) {
+    width: 45.2rem;
+  }
+  @media only screen and (max-width: 480px) {
+    width: 21.6rem;
+  }
 `;
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(4, minmax(200px, 400px));
-  grid-gap: 4rem;
+  //grid-template-columns: repeat(auto-fill, 31.9rem);
+  grid-template-columns: repeat(auto-fit, 21.6rem);
+  grid-gap: 2rem;
+  grid-auto-flow: dense;
   justify-content: center;
   align-content: center;
-  margin-bottom: 4rem;
-  @media only screen and (max-width: 1235px) {
-    grid-template-columns: repeat(2, minmax(200px, 400px));
+  margin-bottom: 2rem;
+
+  /*@media only screen and (max-width: 1235px) {
+    grid-template-columns: repeat(2, 1fr);
   }
   @media only screen and (max-width: 690px) {
-    grid-template-columns: repeat(1, minmax(200px, 400px));
-  }
+    grid-template-columns: repeat(1, 1fr);
+  }*/
 `;
 
 const GridItem = styled.div`
   color: #1443d5;
-  font-size: 3.2rem;
+  font-size: 2.2rem;
   text-shadow: 5px 5px 10px rgba(125, 148, 219, 0.75);
-  padding: 4rem;
+  padding: 2rem;
   text-align: center;
   cursor: pointer;
 
@@ -168,16 +183,30 @@ const GridItem = styled.div`
 const Div = styled.div`
   color: #1034a6;
   text-shadow: 0px 0px 10px rgba(55, 16, 166, 0.5);
-  font-size: 4.8rem;
-  margin: 4rem auto;
+  font-size: 3.6rem;
+  margin: 3rem auto;
   text-align: center;
-  padding: 4rem;
+  padding: 2rem;
   border-radius: 10px;
   background: ${({ bgi }) => `url(${bgi}) no-repeat center`};
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 
   animation: ${slideDiv} 1.1s both;
 
-  @media only screen and (max-width: 690px) {
-    font-size: 3.2rem;
+  @media only screen and (max-width: 1440px) {
+    font-size: 2.8rem;
+    padding: 1.8rem;
+  }
+  @media only screen and (max-width: 960px) {
+    font-size: 2.6rem;
+    padding: 1.6rem;
+  }
+  @media only screen and (max-width: 720px) {
+    font-size: 2.4rem;
+    padding: 1.4rem;
+  }
+  @media only screen and (max-width: 480px) {
+    font-size: 2.2rem;
+    padding: 1.2rem;
   }
 `;
