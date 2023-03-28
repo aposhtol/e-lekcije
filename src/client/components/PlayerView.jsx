@@ -18,17 +18,21 @@ const PlayerView = ({ grade }) => {
   //console.log(video);
   //console.log(urls);
 
-  const backToSubjects = () => {
-    const backHandler = () => navigate('/playlists');
+  /*const backToSubjects = () => {
+    const backHandler = event => navigate('/playlists');
 
     window.addEventListener('popstate', backHandler);
 
     return () => window.removeEventListener('popstate', backHandler);
-  };
+  };*/
 
-  useEffect(() => {
-    backToSubjects();
-  }, []);
+  /*useEffect(() => {
+    const backHandler = (event) => navigate('/playlists');
+
+    window.addEventListener('popstate', backHandler);
+
+    return () => window.removeEventListener('popstate', backHandler);
+  }, []);*/
 
   const scrollRef = useHorizontalScroll();
 
@@ -81,14 +85,15 @@ const PlayerView = ({ grade }) => {
             {video.snippet.description.match(
               /(?<=Autor:|Autori:).*?(?=\r\n|\n|\r)/g
             )}
-            <br />
-            {urls ? 'Dodatni sadržaji: ' : null}
-            {urls &&
-              urls.map((url) => (
-                <Urls key={crypto.randomUUID()} href={url} target='_blank'>
-                  {url}
-                </Urls>
-              ))}
+            <Wrapper>
+              {urls ? 'Dodatni sadržaji: ' : null}
+              {urls &&
+                urls.map((url) => (
+                  <Urls key={crypto.randomUUID()} href={url} target='_blank'>
+                    {url}
+                  </Urls>
+                ))}
+            </Wrapper>
           </PlayerText>
         </PlayerTextContainer>
       </PlayerSection>
@@ -234,7 +239,8 @@ const PlayerSection = styled.div`
   display: flex;
   flex-direction: row;
   //height: 100%;
-  width: 90%;
+  width: 95%;
+  max-width: 1920px;
   gap: 2rem;
   //justify-content: center;
   //align-items: center;
@@ -261,7 +267,7 @@ const PlayerTextContainer = styled.div`
   width: 70%;
   text-align: center;
   padding: 2rem;
-  font-size: 1.5vw;
+  font-size: 1.4rem;
 
   background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
@@ -269,21 +275,48 @@ const PlayerTextContainer = styled.div`
   -webkit-backdrop-filter: blur(4px);
 
   animation: ${slideInRight} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+
+  @media only screen and (max-width: 1016px) {
+    width: 100%;
+    font-size: 1.2rem;
+  }
 `;
 
 const Heading = styled.h1`
-  //font-size: 1.8rem;
+  font-size: 1.8rem;
   letter-spacing: 0.01rem;
+
+  @media only screen and (max-width: 1016px) {
+    font-size: 1.4rem;
+  }
 `;
 
-const PlayerText = styled.p`
-  //font-size: 1.4rem;
+const PlayerText = styled.div`
+  font-size: 1.4rem;
+
+  @media only screen and (max-width: 1016px) {
+    font-size: 1.2rem;
+  }
+`;
+
+const Wrapper = styled.div`
+  padding-top: 2rem;
+  font-size: 1.4rem;
+
+  @media only screen and (max-width: 1016px) {
+    font-size: 1.2rem;
+  }
 `;
 
 const Urls = styled.a`
-  //font-size: 1.4rem;
   display: block;
+  font-size: 1.4rem;
+
+  @media only screen and (max-width: 1016px) {
+    font-size: 1.2rem;
+  }
 `;
+
 const PlaylistsSlide = styled.div`
   display: flex;
   flex-direction: row;

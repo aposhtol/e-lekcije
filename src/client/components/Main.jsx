@@ -144,19 +144,20 @@ const Container = styled.main`
 const Grid = styled.div`
   display: grid;
   //grid-template-columns: repeat(auto-fill, 31.9rem);
-  grid-template-columns: repeat(auto-fit, 21.6rem);
+  grid-template-columns: repeat(auto-fit, 15.6rem);
   grid-gap: 2rem;
   grid-auto-flow: dense;
   justify-content: center;
   align-content: center;
   margin-bottom: 2rem;
 
-  /*@media only screen and (max-width: 1235px) {
-    grid-template-columns: repeat(2, 1fr);
+  @media only screen and (max-width: 960px) {
+    grid-template-columns: repeat(auto-fit, 15.7rem);
   }
-  @media only screen and (max-width: 690px) {
-    grid-template-columns: repeat(1, 1fr);
-  }*/
+
+  @media only screen and (max-width: 1440px) {
+    grid-template-columns: repeat(auto-fit, 17.6rem);
+  }
 `;
 
 const GridItem = styled.div`
