@@ -15,8 +15,8 @@ const PlayerView = ({ grade }) => {
     /https:\/\/bit\.ly\/[\w-žćčđšŽĆČĐŠ]+/g
   );
 
-  console.log(video);
-  console.log(urls);
+  //console.log(video);
+  //console.log(urls);
 
   const backToSubjects = () => {
     const backHandler = () => navigate('/playlists');

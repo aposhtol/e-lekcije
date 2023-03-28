@@ -9,8 +9,9 @@ const routes = require('./routes');
 const ViteExpress = require('vite-express');
 
 const app = express();
-ViteExpress.config({ mode: 'production' });
+//ViteExpress.config({ mode: 'production' });
 
+//app.use(express.static('../'));
 app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'));
