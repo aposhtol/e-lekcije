@@ -24,28 +24,58 @@ const Videolist = ({ grade }) => {
 
   return (
     <Container>
-      <Div>
-        {videos[0].snippet.title.match(/^.+?(?=, \d|\s\d)/g)}
-        {' - '}
-        {grade && grade.grade}. razred{' '}
-        {!grade
-          ? null
-          : grade.type == 'elem'
-          ? 'osnovne škole'
-          : 'srednje škole'}
-      </Div>
       <Grid>
+        <Title>
+          {videos[0].snippet.title.match(/^.+?(?=, \d|\s\d)/g)}
+          {' - '}
+          {grade && grade.grade}. razred{' '}
+          {!grade
+            ? null
+            : grade.type == 'elem'
+            ? 'osnovne škole'
+            : 'srednje škole'}
+        </Title>
+
         {videos.map((v) => (
-          <GridItem
+          <CardItem
             key={v.id}
             to={v.id}
             animated={animated ? 1 : 0}
             onMouseOver={() => setAnimated(false)}
           >
-            <GridImg src={v.snippet.thumbnails.high.url} />
-            <GridP>{v.snippet.title.match(/(?<=- ).+|(?<=-).+/g)}</GridP>
-          </GridItem>
+            <CardImg
+              src={
+                v.snippet.thumbnails.maxres
+                  ? v.snippet.thumbnails.maxres.url
+                  : v.snippet.thumbnails.standard
+                  ? v.snippet.thumbnails.standard.url
+                  : v.snippet.thumbnails.high
+                  ? v.snippet.thumbnails.high.url
+                  : v.snippet.thumbnails.medium
+                  ? v.snippet.thumbnails.medium.url
+                  : v.snippet.thumbnails.default
+                  ? v.snippet.thumbnails.default.url
+                  : null
+              }
+            />
+            <CardTextArea>
+              <CardText>
+                {v.snippet.title.match(/(?<=- ).+|(?<=-).+/g)}
+              </CardText>
+            </CardTextArea>
+          </CardItem>
         ))}
+
+        <Title>
+          {videos[0].snippet.title.match(/^.+?(?=, \d|\s\d)/g)}
+          {' - '}
+          {grade && grade.grade}. razred{' '}
+          {!grade
+            ? null
+            : grade.type == 'elem'
+            ? 'osnovne škole'
+            : 'srednje škole'}
+        </Title>
       </Grid>
     </Container>
   );
@@ -114,14 +144,13 @@ const slideDiv = keyframes`
 `;
 
 const Container = styled.main`
-  width: 139.6rem;
+  width: 90%;
   height: 100%;
-  position: relative;
   margin: 0 auto;
   margin-top: 11rem;
   overflow-x: visible;
 
-  @media only screen and (max-width: 1440px) {
+  /*@media only screen and (max-width: 1440px) {
     width: 92.4rem;
   }
   @media only screen and (max-width: 960px) {
@@ -132,16 +161,17 @@ const Container = styled.main`
   }
   @media only screen and (max-width: 480px) {
     width: 21.6rem;
-  }
+  }*/
 `;
 
-const Div = styled.div`
+const Title = styled.div`
+  grid-column: 1/-1;
   color: #1034a6;
   text-shadow: 0px 0px 10px rgba(55, 16, 166, 0.5);
-  font-size: 2.8rem;
-  margin: 3rem auto;
+  font-size: 2.2rem;
+  //margin: 3rem auto;
   text-align: center;
-  padding: 2rem;
+  padding: 1.5rem;
 
   background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
@@ -151,32 +181,36 @@ const Div = styled.div`
 
   animation: ${slideDiv} 1.1s both;
 
-  @media only screen and (max-width: 1440px) {
+  /*@media only screen and (max-width: 1440px) {
     font-size: 2.8rem;
     padding: 1.8rem;
+  }*/
+  @media only screen and (max-width: 1016px) {
+    font-size: 1.6rem;
+    //padding: 1.6rem;
   }
-  @media only screen and (max-width: 960px) {
-    font-size: 2.6rem;
-    padding: 1.6rem;
-  }
-  @media only screen and (max-width: 720px) {
+  /*@media only screen and (max-width: 720px) {
     font-size: 2.4rem;
     padding: 1.4rem;
   }
   @media only screen and (max-width: 480px) {
     font-size: 2.2rem;
     padding: 1.2rem;
-  }
+  }*/
 `;
 
 const Grid = styled.div`
   display: grid;
-  grid-template-columns: repeat(auto-fit, 21.6rem);
+  grid-template-columns: repeat(auto-fit, 19.55rem);
   grid-gap: 2rem;
   justify-content: center;
   align-content: center;
   margin-bottom: 4rem;
 
+  @media only screen and (max-width: 1016px) {
+    grid-template-columns: repeat(auto-fit, 16rem);
+    grid-gap: 1rem;
+  }
   /*@media only screen and (max-width: 1440px) {
     grid-template-columns: repeat(4, 21.6rem);
   }
@@ -191,14 +225,10 @@ const Grid = styled.div`
   }*/
 `;
 
-const GridItem = styled(Link)`
+const CardItem = styled(Link)`
   display: flex;
   flex-direction: column;
-  //justify-content: center;
-  //align-items: center;
-
   text-decoration: none;
-  //padding: 2rem;
   cursor: pointer;
   background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
@@ -211,49 +241,50 @@ const GridItem = styled(Link)`
   &:hover {
     animation: ${hoverItem} 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   }
-
-  //justify-self: center;
-  //align-self: center;
 `;
 
-const GridImg = styled.img`
+const CardImg = styled.img`
   src: ${({ src }) => src};
   aspect-ratio: 16/9;
-  //display: block;
-  //contain: paint;
   object-fit: cover;
-  //object-position: center;
-  //width: 100%;
-  height: 11.4rem;
+  height: 11rem;
+  width: 19.55rem;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+
+  @media only screen and (max-width: 1016px) {
+    height: 9rem;
+    width: 16rem;
+  }
 `;
 
-const GridP = styled.p`
-  flex: 1;
-
-  //margin: 0 auto;
-
-  color: #1443d5;
-  //height: 9rem;
-
-  font-size: 1.6rem;
-  padding: 1rem;
+const CardTextArea = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 9rem;
+  padding: 0.5rem;
   text-shadow: 5px 5px 10px rgba(125, 148, 219, 0.75);
-  text-align: center;
 
-  /*background: rgba(255, 255, 255, 0.25);
-  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);*/
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   border-top-left-radius: none;
   border-top-right-radius: none;
 
-  /*&:hover {
-    color: #107fa6;
-  }*/
+  @media only screen and (max-width: 1016px) {
+    height: 9rem;
+    padding: 1rem;
+  }
+`;
+
+const CardText = styled.p`
+  color: #1443d5;
+  font-size: 1.4rem;
+  text-align: center;
+
+  @media only screen and (max-width: 1016px) {
+    font-size: 1.2rem;
+  }
 `;
 
 //{videos[0].snippet.title.match(/^[^\d]*/g)}

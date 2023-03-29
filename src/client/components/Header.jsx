@@ -41,7 +41,7 @@ const Head = styled.header`
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  width: 100vw;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;

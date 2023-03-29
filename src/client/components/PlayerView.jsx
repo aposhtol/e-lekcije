@@ -15,6 +15,8 @@ const PlayerView = ({ grade }) => {
     /https:\/\/bit\.ly\/[\w-žćčđšŽĆČĐŠ]+/g
   );
 
+  useEffect(() => window.scrollTo(0, 0), []);
+
   //console.log(video);
   //console.log(urls);
 
@@ -47,10 +49,26 @@ const PlayerView = ({ grade }) => {
       <PlaylistsSlide ref={scrollRef}>
         {videos.map((v) => (
           <PlaylistItem key={v.id} onClick={() => handleReplace(v.id)}>
-            <PlaylistImg src={v.snippet.thumbnails.high.url} />
-            <PlaylistText>
-              {v.snippet.title.match(/(?<=- ).+|(?<=-).+/g)}
-            </PlaylistText>
+            <PlaylistImg
+              src={
+                v.snippet.thumbnails.maxres
+                  ? v.snippet.thumbnails.maxres.url
+                  : v.snippet.thumbnails.standard
+                  ? v.snippet.thumbnails.standard.url
+                  : v.snippet.thumbnails.high
+                  ? v.snippet.thumbnails.high.url
+                  : v.snippet.thumbnails.medium
+                  ? v.snippet.thumbnails.medium.url
+                  : v.snippet.thumbnails.default
+                  ? v.snippet.thumbnails.default.url
+                  : null
+              }
+            />
+            <PlaylistTextArea>
+              <PlaylistText>
+                {v.snippet.title.match(/(?<=- ).+|(?<=-).+/g)}
+              </PlaylistText>
+            </PlaylistTextArea>
           </PlaylistItem>
         ))}
       </PlaylistsSlide>
@@ -210,7 +228,6 @@ const slideInLeft = keyframes`
 const Container = styled.main`
   display: flex;
   flex-direction: column;
-  //justify-content: center;
   align-items: center;
   gap: 2rem;
   width: 100%;
@@ -238,6 +255,7 @@ const Container = styled.main`
 const PlayerSection = styled.div`
   display: flex;
   flex-direction: row;
+
   //height: 100%;
   width: 95%;
   max-width: 1920px;
@@ -318,15 +336,12 @@ const Urls = styled.a`
 `;
 
 const PlaylistsSlide = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: baseline;
-  justify-content: start;
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 1rem;
   width: 100%;
-  gap: 1rem;
   padding: 2rem;
   overflow-x: scroll;
-  scroll-behavior: smooth;
 
   &::-webkit-scrollbar-track {
     box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
@@ -348,7 +363,6 @@ const PlaylistsSlide = styled.div`
 const PlaylistItem = styled.div`
   display: flex;
   flex-direction: column;
-  width: 18.6rem;
   cursor: pointer;
   background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
@@ -365,21 +379,29 @@ const PlaylistImg = styled.img`
   src: ${({ src }) => src};
   aspect-ratio: 16/9;
   object-fit: cover;
-  height: 10rem;
+  height: 9rem;
+  width: 16rem;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
 `;
 
-const PlaylistText = styled.p`
-  color: #1443d5;
-  font-size: 1.2rem;
+const PlaylistTextArea = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 9rem;
   padding: 0.5rem;
   text-shadow: 5px 5px 10px rgba(125, 148, 219, 0.75);
-  text-align: center;
 
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   border-top-left-radius: none;
   border-top-right-radius: none;
+`;
+
+const PlaylistText = styled.p`
+  color: #1443d5;
+  font-size: 1.2rem;
+  text-align: center;
 `;
 //{videos[0].snippet.title.match(/^[^\d]*/g)}

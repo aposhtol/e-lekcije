@@ -121,8 +121,8 @@ const slideDiv = keyframes`
 `;
 
 const Container = styled.main`
-  width: 139.6rem;
-  //width: 73.5%;
+  //width: 139.6rem;
+  width: 90%;
   height: 100%;
   margin: 0 auto;
   margin-top: 11rem;
@@ -144,9 +144,9 @@ const Container = styled.main`
 const Grid = styled.div`
   display: grid;
   //grid-template-columns: repeat(auto-fill, 31.9rem);
-  grid-template-columns: repeat(auto-fit, 15.6rem);
+  grid-template-columns: repeat(auto-fit, 16rem);
   grid-gap: 2rem;
-  grid-auto-flow: dense;
+  //grid-auto-flow: column;
   justify-content: center;
   align-content: center;
   margin-bottom: 2rem;
