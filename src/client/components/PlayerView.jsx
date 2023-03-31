@@ -108,7 +108,7 @@ const PlayerView = ({ grade }) => {
               {urls &&
                 urls.map((url) => (
                   <Urls key={crypto.randomUUID()} href={url} target='_blank'>
-                    {url}
+                    <Button>{url}</Button>
                   </Urls>
                 ))}
             </Wrapper>
@@ -285,7 +285,7 @@ const PlayerTextContainer = styled.div`
   width: 70%;
   text-align: center;
   padding: 2rem;
-  font-size: 1.4rem;
+  //font-size: 1.4rem;
 
   background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
@@ -296,39 +296,72 @@ const PlayerTextContainer = styled.div`
 
   @media only screen and (max-width: 1016px) {
     width: 100%;
-    font-size: 1.2rem;
+    //font-size: 1.2rem;
   }
 `;
 
 const Heading = styled.h1`
-  font-size: 1.8rem;
+  font-size: 2rem;
   letter-spacing: 0.01rem;
+
+  @media only screen and (max-width: 1016px) {
+    font-size: 1.6rem;
+  }
+`;
+
+const PlayerText = styled.div`
+  font-size: 1.6rem;
 
   @media only screen and (max-width: 1016px) {
     font-size: 1.4rem;
   }
 `;
 
-const PlayerText = styled.div`
-  font-size: 1.4rem;
-
-  @media only screen and (max-width: 1016px) {
-    font-size: 1.2rem;
-  }
-`;
-
 const Wrapper = styled.div`
   padding-top: 2rem;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
 
   @media only screen and (max-width: 1016px) {
-    font-size: 1.2rem;
+    font-size: 1.4rem;
   }
 `;
 
 const Urls = styled.a`
-  display: block;
+  text-decoration: none;
+`;
+
+const Button = styled.button`
   font-size: 1.4rem;
+  font-family: inherit;
+  margin: 1rem auto;
+  width: auto;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 25px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  //position: relative;
+  display: block;
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+  outline: none;
+  background: rgb(6, 14, 131);
+  background: linear-gradient(
+    0deg,
+    rgba(6, 14, 131, 1) 0%,
+    rgba(12, 25, 180, 1) 100%
+  );
+  border: none;
+
+  &:hover {
+    background: rgb(0, 3, 255);
+    background: linear-gradient(
+      0deg,
+      rgba(0, 3, 255, 1) 0%,
+      rgba(2, 126, 251, 1) 100%
+    );
+  }
 
   @media only screen and (max-width: 1016px) {
     font-size: 1.2rem;

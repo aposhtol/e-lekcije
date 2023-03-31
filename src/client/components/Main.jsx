@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
-import bgiHigh from '../assets/images/alexander-grey-eMP4sYPJ9x0-unsplash.jpg';
-import bgiElem from '../assets/images/leohoho-rngTKHXumy0-unsplash.jpg';
+import bgiHigh from '../assets/images/mid.webp';
+import bgiElem from '../assets/images/elem.webp';
 
 const Home = ({ onGradeChange }) => {
   const grades = useSelector((state) => state.grades);
@@ -22,38 +22,37 @@ const Home = ({ onGradeChange }) => {
 
   return (
     <Container>
-      <Div bgi={bgiElem}>Osnovna škola</Div>
-      <Grid>
+      <Title bgi={bgiElem}>Osnovna škola</Title>
+      <Flex>
         {grades
           .filter((gr) => gr.type === 'elem')
           .map((gr) => (
-            <GridItem
+            <FlexItem
               animated={animated}
               onMouseOver={() => setAnimated(false)}
               key={crypto.randomUUID()}
               onClick={() => handleClick(gr)}
             >
               {gr.name}
-            </GridItem>
+            </FlexItem>
           ))}
-      </Grid>
+      </Flex>
 
-      <br />
-      <Div bgi={bgiHigh}>Srednja škola (gimnazija)</Div>
-      <Grid>
+      <Title bgi={bgiHigh}>Srednja škola (gimnazija)</Title>
+      <Flex>
         {grades
           .filter((gr) => gr.type === 'high')
           .map((gr) => (
-            <GridItem
+            <FlexItem
               animated={animated}
               onMouseOver={() => setAnimated(false)}
               key={crypto.randomUUID()}
               onClick={() => handleClick(gr)}
             >
               {gr.name}
-            </GridItem>
+            </FlexItem>
           ))}
-      </Grid>
+      </Flex>
     </Container>
   );
 };
@@ -65,7 +64,7 @@ const hoverItem = keyframes`
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
   }
   100% {
-    box-shadow: 0 0 20px 10px rgba(0, 140, 255, 0.507);
+    box-shadow: 0 0 20px 10px rgba(0, 140, 255, 0.5);
   }
 `;
 
@@ -121,48 +120,31 @@ const slideDiv = keyframes`
 `;
 
 const Container = styled.main`
-  //width: 139.6rem;
+  display: flex;
+  flex-direction: column;
   width: 90%;
   height: 100%;
   margin: 0 auto;
-  margin-top: 11rem;
-  //overflow-x: visible;
-  @media only screen and (max-width: 1440px) {
-    width: 92.4rem;
-  }
-  @media only screen and (max-width: 960px) {
-    width: 68.8rem;
-  }
-  @media only screen and (max-width: 720px) {
-    width: 45.2rem;
-  }
-  @media only screen and (max-width: 480px) {
-    width: 21.6rem;
-  }
+  margin-top: 7rem;
 `;
 
-const Grid = styled.div`
-  display: grid;
-  //grid-template-columns: repeat(auto-fill, 31.9rem);
-  grid-template-columns: repeat(auto-fit, 16rem);
-  grid-gap: 2rem;
-  //grid-auto-flow: column;
+const Flex = styled.div`
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  align-content: center;
-  margin-bottom: 2rem;
+  gap: 2rem;
+  margin-top: 2rem;
+  margin-bottom: 4rem;
 
-  @media only screen and (max-width: 960px) {
-    grid-template-columns: repeat(auto-fit, 15.7rem);
-  }
-
-  @media only screen and (max-width: 1440px) {
-    grid-template-columns: repeat(auto-fit, 17.6rem);
+  @media only screen and (max-width: 1016px) {
+    gap: 1rem;
   }
 `;
 
-const GridItem = styled.div`
+const FlexItem = styled.div`
   color: #1443d5;
-  font-size: 2.2rem;
+  width: 19.55rem;
+  font-size: 2.4rem;
   text-shadow: 5px 5px 10px rgba(125, 148, 219, 0.75);
   padding: 2rem;
   text-align: center;
@@ -179,35 +161,35 @@ const GridItem = styled.div`
   &:hover {
     animation: ${hoverItem} 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   }
+
+  @media only screen and (max-width: 1016px) {
+    width: 16rem;
+    font-size: 2rem;
+  }
 `;
 
-const Div = styled.div`
+const Title = styled.div`
   color: #1034a6;
-  text-shadow: 0px 0px 10px rgba(55, 16, 166, 0.5);
-  font-size: 3.6rem;
-  margin: 3rem auto;
+  text-shadow: rgba(55, 16, 166, 0.5) 0px 0px 10px,
+    rgb(255, 255, 255) 0.540302px 0.841471px 0px,
+    rgb(255, 255, 255) -0.416147px 0.909297px 0px,
+    rgb(255, 255, 255) -0.989993px 0.14112px 0px,
+    rgb(255, 255, 255) -0.653644px -0.756803px 0px,
+    rgb(255, 255, 255) 0.283662px -0.958924px 0px,
+    rgb(255, 255, 255) 0.96017px -0.279416px 0px;
+
+  font-size: 3.2rem;
+  margin-top: 4rem;
   text-align: center;
-  padding: 2rem;
+  padding: 1.5rem;
   border-radius: 10px;
   background: ${({ bgi }) => `url(${bgi}) no-repeat center`};
+  background-size: cover;
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
 
   animation: ${slideDiv} 1.1s both;
 
-  @media only screen and (max-width: 1440px) {
-    font-size: 2.8rem;
-    padding: 1.8rem;
-  }
-  @media only screen and (max-width: 960px) {
+  @media only screen and (max-width: 1016px) {
     font-size: 2.6rem;
-    padding: 1.6rem;
-  }
-  @media only screen and (max-width: 720px) {
-    font-size: 2.4rem;
-    padding: 1.4rem;
-  }
-  @media only screen and (max-width: 480px) {
-    font-size: 2.2rem;
-    padding: 1.2rem;
   }
 `;
