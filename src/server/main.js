@@ -13,8 +13,6 @@ const app = express();
 app.use(express.json());
 app.use(morgan('tiny'));
 
-app.use(routes);
-
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(config.MONGODB_URI);
@@ -23,7 +21,9 @@ const connectDB = async () => {
     console.error('error connection to MongoDB:', error.message);
   }
 };
+
 //app.use(middleware.unknownEndpoint);
+app.use(routes);
 
 connectDB().then(() => {
   ViteExpress.listen(app, config.PORT, () =>
