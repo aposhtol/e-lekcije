@@ -48,7 +48,11 @@ const PlayerView = ({ grade }) => {
     <Container>
       <PlaylistsSlide ref={scrollRef}>
         {videos.map((v) => (
-          <PlaylistItem key={v.id} onClick={() => handleReplace(v.id)}>
+          <PlaylistItem
+            key={v.id}
+            onClick={() => handleReplace(v.id)}
+            tabIndex='1'
+          >
             <PlaylistImg
               src={
                 v.snippet.thumbnails.maxres
@@ -150,20 +154,6 @@ const hoverItem = keyframes`
   }
 `;
 
-const appear = keyframes`
-  0% {
-    transform: translateZ(-800px) rotateX(90deg);
-    opacity: 0;
-  }
-  54% {
-    transform: translateZ(-160px) rotateX(87deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateZ(0) rotateX(0);
-  }
-`;
-
 const slideDiv = keyframes`
   0% {
     transform: translateY(-500px);
@@ -233,35 +223,14 @@ const Container = styled.main`
   width: 100%;
   margin: 0 auto;
   margin-top: 7rem;
-
-  /*
-  padding: 0 4rem;
-  overflow-x: visible;*/
-
-  /*@media only screen and (max-width: 1440px) {
-    width: 92.4rem;
-  }
-  @media only screen and (max-width: 960px) {
-    width: 68.8rem;
-  }
-  @media only screen and (max-width: 720px) {
-    width: 45.2rem;
-  }
-  @media only screen and (max-width: 480px) {
-    width: 21.6rem;
-  }*/
 `;
 
 const PlayerSection = styled.div`
   display: flex;
   flex-direction: row;
-
-  //height: 100%;
   width: 95%;
   max-width: 1920px;
   gap: 2rem;
-  //justify-content: center;
-  //align-items: center;
 
   @media only screen and (max-width: 1016px) {
     flex-direction: column;
@@ -277,7 +246,6 @@ const Player = styled(ReactPlayer)`
   -webkit-backdrop-filter: blur(4px);
 
   animation: ${slideInLeft} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  //animation: 0.45s ease-out both;
 `;
 
 const PlayerTextContainer = styled.div`
@@ -285,8 +253,6 @@ const PlayerTextContainer = styled.div`
   width: 70%;
   text-align: center;
   padding: 2rem;
-  //font-size: 1.4rem;
-
   background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(4px);
@@ -296,7 +262,6 @@ const PlayerTextContainer = styled.div`
 
   @media only screen and (max-width: 1016px) {
     width: 100%;
-    //font-size: 1.2rem;
   }
 `;
 
@@ -341,7 +306,6 @@ const Button = styled.button`
   background: transparent;
   cursor: pointer;
   transition: all 0.3s ease;
-  //position: relative;
   display: block;
   box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
     7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
@@ -404,6 +368,10 @@ const PlaylistItem = styled.div`
   border-radius: 10px;
   text-decoration: none;
   &:hover {
+    animation: ${hoverItem} 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  &:focus {
     animation: ${hoverItem} 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   }
 `;
