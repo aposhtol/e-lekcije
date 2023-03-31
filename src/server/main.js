@@ -10,6 +10,7 @@ const ViteExpress = require('vite-express');
 
 const app = express();
 
+app.use(cors());
 app.use(express.json());
 app.use(morgan('tiny'));
 
