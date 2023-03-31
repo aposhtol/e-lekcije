@@ -24,7 +24,7 @@ mongoose
     console.error('error connection to MongoDB:', error.message);
   });
 
-app.use(middleware.unknownEndpoint);
+//app.use(middleware.unknownEndpoint);
 
 ViteExpress.listen(app, config.PORT, () =>
   info(`Server is listening on port ${config.PORT}...`)
