@@ -9,6 +9,7 @@ const routes = require('./routes');
 const ViteExpress = require('vite-express');
 
 const app = express();
+ViteExpress.config({ mode: 'production' });
 app.use(morgan('tiny'));
 
 const connectDB = async () => {
