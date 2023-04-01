@@ -128,6 +128,10 @@ const Container = styled.main`
   margin: 0 auto;
   margin-top: 11rem;
 
+  @media only screen and (max-width: 380px) {
+    margin-top: 9rem;
+  }
+
   /*@media only screen and (max-width: 1754px) {
     width: 92.4rem;
   }
@@ -189,6 +193,11 @@ const Grid = styled.div`
     grid-template-columns: repeat(auto-fit, 16rem);
     grid-gap: 1rem;
   }
+
+  @media only screen and (max-width: 380px) {
+    grid-template-columns: repeat(auto-fit, 14rem);
+    grid-gap: 0.5rem;
+  }
   /*@media only screen and (max-width: 1440px) {
     grid-template-columns: repeat(4, 21.6rem);
   }
@@ -233,6 +242,11 @@ const CardImg = styled.img`
   @media only screen and (max-width: 1016px) {
     height: 9rem;
     width: 16rem;
+  }
+
+  @media only screen and (max-width: 380px) {
+    height: 7.875rem;
+    width: 14rem;
   }
 `;
 

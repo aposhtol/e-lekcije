@@ -148,20 +148,10 @@ const Container = styled.main`
   height: 100%;
   margin: 0 auto;
   margin-top: 11rem;
-  overflow-x: visible;
 
-  /*@media only screen and (max-width: 1440px) {
-    width: 92.4rem;
+  @media only screen and (max-width: 380px) {
+    margin-top: 9rem;
   }
-  @media only screen and (max-width: 960px) {
-    width: 68.8rem;
-  }
-  @media only screen and (max-width: 720px) {
-    width: 45.2rem;
-  }
-  @media only screen and (max-width: 480px) {
-    width: 21.6rem;
-  }*/
 `;
 
 const Title = styled.div`
@@ -181,22 +171,9 @@ const Title = styled.div`
 
   animation: ${slideDiv} 1.1s both;
 
-  /*@media only screen and (max-width: 1440px) {
-    font-size: 2.8rem;
-    padding: 1.8rem;
-  }*/
   @media only screen and (max-width: 1016px) {
     font-size: 1.6rem;
-    //padding: 1.6rem;
   }
-  /*@media only screen and (max-width: 720px) {
-    font-size: 2.4rem;
-    padding: 1.4rem;
-  }
-  @media only screen and (max-width: 480px) {
-    font-size: 2.2rem;
-    padding: 1.2rem;
-  }*/
 `;
 
 const Grid = styled.div`
@@ -211,18 +188,11 @@ const Grid = styled.div`
     grid-template-columns: repeat(auto-fit, 16rem);
     grid-gap: 1rem;
   }
-  /*@media only screen and (max-width: 1440px) {
-    grid-template-columns: repeat(4, 21.6rem);
+
+  @media only screen and (max-width: 380px) {
+    grid-template-columns: repeat(auto-fit, 14rem);
+    grid-gap: 0.5rem;
   }
-  @media only screen and (max-width: 960px) {
-    grid-template-columns: repeat(3, 21.6rem);
-  }
-  @media only screen and (max-width: 720px) {
-    grid-template-columns: repeat(2, 21.6rem);
-  }
-  @media only screen and (max-width: 480px) {
-    grid-template-columns: repeat(1, 21.6rem);
-  }*/
 `;
 
 const CardItem = styled(Link)`
@@ -256,6 +226,11 @@ const CardImg = styled.img`
     height: 9rem;
     width: 16rem;
   }
+
+  @media only screen and (max-width: 380px) {
+    height: 7.875rem;
+    width: 14rem;
+  }
 `;
 
 const CardTextArea = styled.div`
@@ -286,5 +261,3 @@ const CardText = styled.p`
     font-size: 1.2rem;
   }
 `;
-
-//{videos[0].snippet.title.match(/^[^\d]*/g)}

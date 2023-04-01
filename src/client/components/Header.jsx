@@ -1,5 +1,4 @@
 import styled, { keyframes } from 'styled-components';
-import { FaBars } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 
 const Header = () => {
@@ -68,6 +67,10 @@ const Logo = styled.h1`
   }
 
   animation: ${popOut} 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+
+  @media only screen and (max-width: 380px) {
+    font-size: 2.8rem;
+  }
 `;
 
 const Nav = styled.nav`
@@ -90,6 +93,10 @@ const StyledLink = styled(Link)`
   text-shadow: 0px 0px 5px rgba(125, 148, 219, 0.5);
   &:hover {
     color: #107fa6;
+  }
+
+  @media only screen and (max-width: 380px) {
+    font-size: 1.4rem;
   }
 `;
 

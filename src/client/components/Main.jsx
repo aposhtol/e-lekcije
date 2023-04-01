@@ -122,10 +122,15 @@ const slideDiv = keyframes`
 const Container = styled.main`
   display: flex;
   flex-direction: column;
+  align-items: center;
   width: 90%;
   height: 100%;
   margin: 0 auto;
-  margin-top: 7rem;
+  margin-top: 11rem;
+
+  @media only screen and (max-width: 380px) {
+    margin-top: 9rem;
+  }
 `;
 
 const Flex = styled.div`
@@ -138,6 +143,10 @@ const Flex = styled.div`
 
   @media only screen and (max-width: 1016px) {
     gap: 1rem;
+  }
+
+  @media only screen and (max-width: 380px) {
+    gap: 0.5rem;
   }
 `;
 
@@ -166,9 +175,16 @@ const FlexItem = styled.div`
     width: 16rem;
     font-size: 2rem;
   }
+
+  @media only screen and (max-width: 380px) {
+    width: 14rem;
+    font-size: 1.8rem;
+  }
 `;
 
 const Title = styled.div`
+  width: 100%;
+  max-width: 170.4rem;
   color: #1034a6;
   text-shadow: rgba(55, 16, 166, 0.5) 0px 0px 10px,
     rgb(255, 255, 255) 0.540302px 0.841471px 0px,
@@ -179,7 +195,7 @@ const Title = styled.div`
     rgb(255, 255, 255) 0.96017px -0.279416px 0px;
 
   font-size: 3.2rem;
-  margin-top: 4rem;
+  //margin-top: 2rem;
   text-align: center;
   padding: 1.5rem;
   border-radius: 10px;
@@ -191,5 +207,9 @@ const Title = styled.div`
 
   @media only screen and (max-width: 1016px) {
     font-size: 2.6rem;
+  }
+
+  @media only screen and (max-width: 380px) {
+    font-size: 2.4rem;
   }
 `;

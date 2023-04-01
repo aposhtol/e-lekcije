@@ -223,6 +223,10 @@ const Container = styled.main`
   width: 100%;
   margin: 0 auto;
   margin-top: 7rem;
+
+  @media only screen and (max-width: 380px) {
+    margin-top: 5.5rem;
+  }
 `;
 
 const PlayerSection = styled.div`
@@ -384,6 +388,16 @@ const PlaylistImg = styled.img`
   width: 16rem;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+
+  @media only screen and (max-width: 1016px) {
+    height: 7.875rem;
+    width: 14rem;
+  }
+
+  /*@media only screen and (max-width: 380px) {
+    height: 7.875rem;
+    width: 14rem;
+  }*/
 `;
 
 const PlaylistTextArea = styled.div`
