@@ -10,7 +10,7 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "nodemon src/server/main.js -w src/server",
-    "start": "node src/server/main.js",
+    "start": "cross-env NODE_ENV=production node src/server/main.js",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -32,12 +32,12 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2",
     "styled-components": "^5.3.8",
+    "@vitejs/plugin-react": "^3.0.1",
     "vite-express": "*"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.10",
-    "@vitejs/plugin-react": "^3.0.1",
     "nodemon": "^2.0.20",
     "vite": "^4.0.4"
   }
