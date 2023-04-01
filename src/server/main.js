@@ -9,21 +9,20 @@ const routes = require('./routes');
 const ViteExpress = require('vite-express');
 
 const app = express();
-
-app.use(cors());
-app.use(express.json());
 app.use(morgan('tiny'));
 
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(config.MONGODB_URI);
-    console.log('connected to MongoDB');
+    console.log(`connected to MongoDB: ${conn.connection.host}`);
   } catch (error) {
     console.error('error connection to MongoDB:', error.message);
+    process.exit(1);
   }
 };
 
-//app.use(middleware.unknownEndpoint);
+app.use(cors());
+app.use(express.json());
 app.use(routes);
 
 connectDB().then(() => {
