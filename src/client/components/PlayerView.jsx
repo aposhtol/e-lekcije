@@ -15,7 +15,10 @@ const PlayerView = ({ grade }) => {
     /https:\/\/bit\.ly\/[\w-žćčđšŽĆČĐŠ]+/g
   );
 
-  useEffect(() => window.scrollTo(0, 0), []);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    screen.orientation.lock('portrait-primary');
+  }, []);
 
   //console.log(video);
   //console.log(urls);

@@ -147,10 +147,12 @@ const Container = styled.main`
   width: 90%;
   height: 100%;
   margin: 0 auto;
-  margin-top: 11rem;
+  margin-top: 10rem;
+  margin-bottom: 7rem;
 
   @media only screen and (max-width: 380px) {
-    margin-top: 9rem;
+    margin-top: 8.5rem;
+    margin-bottom: 5.5rem;
   }
 `;
 
