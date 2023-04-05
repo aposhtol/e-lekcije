@@ -77,7 +77,7 @@ const Logo = styled.h1`
 
   animation: ${popOut} 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 
-  @media only screen and (max-width: 380px) {
+  @media only screen and (max-width: 528px) {
     font-size: 2.8rem;
   }
 `;
@@ -86,6 +86,7 @@ const Nav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  visibility: hidden;
 `;
 
 const StyledLink = styled(Link)`
@@ -99,7 +100,7 @@ const StyledLink = styled(Link)`
     color: #107fa6;
   }
 
-  @media only screen and (max-width: 380px) {
+  @media only screen and (max-width: 528px) {
     font-size: 1.4rem;
   }
 `;

@@ -9,7 +9,7 @@ import Playlists from './components/Playlists';
 import Videolist from './components/Videolist';
 import PlayerView from './components/PlayerView';
 import About from './components/About';
-import { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle } from 'styled-components';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -49,7 +49,7 @@ const App = () => {
   const handleGradeChange = (grade) => setGrade(grade);
 
   return (
-    <>
+    <Container>
       <GlobalStyles />
       <Header />
       <Footer />
@@ -66,7 +66,7 @@ const App = () => {
         />
         <Route path='about' element={<About />} />
       </Routes>
-    </>
+    </Container>
   );
 };
 
@@ -104,5 +104,19 @@ scroll-behavior: smooth;
   &::-webkit-scrollbar-thumb {
     background-color: #1d3fd47f;
   }
+  
+
 }
+`;
+
+const Container = styled.div`
+  @media screen and (min-width: 320px) and (max-width: 1016px) and (orientation: landscape) {
+    transform: rotate(-90deg);
+    transform-origin: left top;
+    width: 100vh;
+    overflow-x: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+  }
 `;

@@ -6,10 +6,15 @@ const Footer = () => {
   return (
     <>
       <Foot>
-        <StyledLink to='/about'>O aplikaciji</StyledLink>
-        <StyledLink as='a' href='https://github.com/aposhtol' target='_blank'>
-          <GHIcon />
-        </StyledLink>
+        <Heading>
+          agregator YouTube kanala <i>i-nastava</i>
+        </Heading>
+        <LWrap>
+          <StyledLink to='/about'>O aplikaciji</StyledLink>
+          <StyledLink as='a' href='https://github.com/aposhtol' target='_blank'>
+            <GHIcon />
+          </StyledLink>
+        </LWrap>
       </Foot>
     </>
   );
@@ -30,13 +35,15 @@ const slideInBottom = keyframes`
 
 const Foot = styled.footer`
   display: flex;
+  flex-wrap: wrap;
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100vw;
-  height: 4rem;
+  padding: 0.5rem 0;
+  //height: 4rem;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
   z-index: 10;
   background: linear-gradient(
@@ -48,13 +55,40 @@ const Foot = styled.footer`
 
   animation: ${slideInBottom} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 
-  @media only screen and (max-width: 380px) {
+  /*@media only screen and (max-width: 380px) {
     height: 3rem;
+  }*/
+`;
+
+const Heading = styled.h1`
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 1.8rem;
+  color: #1443d5;
+  padding: 0 2rem;
+  text-align: center;
+  text-shadow: 5px 5px 10px rgba(125, 148, 219, 0.75);
+
+  > i {
+    font-size: inherit;
   }
+
+  @media only screen and (max-width: 528px) {
+    padding-bottom: 1rem;
+    font-size: 1.4rem;
+    padding-bottom: 0.5rem;
+  }
+`;
+
+const LWrap = styled.nav`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 `;
 
 const StyledLink = styled(Link)`
   font-size: 1.8rem;
+  padding: 0 2rem;
   color: #1443d5;
   cursor: pointer;
   text-decoration: none;
@@ -64,7 +98,7 @@ const StyledLink = styled(Link)`
     color: #107fa6;
   }
 
-  @media only screen and (max-width: 380px) {
+  @media only screen and (max-width: 528px) {
     font-size: 1.4rem;
   }
 `;
@@ -73,7 +107,7 @@ const GHIcon = styled(FaGithub)`
   font-size: 3rem;
   vertical-align: middle;
 
-  @media only screen and (max-width: 380px) {
+  @media only screen and (max-width: 528px) {
     font-size: 2rem;
   }
 `;

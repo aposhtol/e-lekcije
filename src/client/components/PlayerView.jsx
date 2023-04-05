@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { useRef, useEffect } from 'react';
+import Cogs from '../assets/images/player-cogs.svg';
 
 const PlayerView = ({ grade }) => {
   const navigate = useNavigate();
@@ -17,7 +18,6 @@ const PlayerView = ({ grade }) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    screen.orientation.lock('portrait-primary');
   }, []);
 
   //console.log(video);
@@ -84,11 +84,6 @@ const PlayerView = ({ grade }) => {
         <Player
           playing={true}
           controls={true}
-          config={{
-            youtube: {
-              playerVars: { hl: 'hr', loop: 1, rel: 0 },
-            },
-          }}
           url={`https://www.youtube.com/watch?v=${video.snippet.resourceId.videoId}?rel=0`}
           width='100%'
           height='100%'
@@ -227,7 +222,7 @@ const Container = styled.main`
   margin: 0 auto;
   margin-top: 7rem;
 
-  @media only screen and (max-width: 380px) {
+  @media only screen and (max-width: 528px) {
     margin-top: 5.5rem;
   }
 `;
@@ -242,6 +237,11 @@ const PlayerSection = styled.div`
   @media only screen and (max-width: 1016px) {
     flex-direction: column;
     align-items: center;
+    margin-bottom: 7.5rem;
+  }
+
+  @media only screen and (max-height: 1016px) {
+    margin-bottom: 10rem;
   }
 `;
 
@@ -256,16 +256,23 @@ const Player = styled(ReactPlayer)`
 `;
 
 const PlayerTextContainer = styled.div`
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   color: #1443d5;
   width: 70%;
   text-align: center;
   padding: 2rem;
-  background: rgba(255, 255, 255, 0.25);
+  background-image: url(${Cogs});
+  //background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 
   animation: ${slideInRight} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+
+  @media only screen and (min-width: 1016px) and (max-width: 1366px) {
+    width: 85%;
+  }
 
   @media only screen and (max-width: 1016px) {
     width: 100%;
@@ -275,6 +282,7 @@ const PlayerTextContainer = styled.div`
 const Heading = styled.h1`
   font-size: 2rem;
   letter-spacing: 0.01rem;
+  padding-bottom: 2rem;
 
   @media only screen and (max-width: 1016px) {
     font-size: 1.6rem;
@@ -283,6 +291,7 @@ const Heading = styled.h1`
 
 const PlayerText = styled.div`
   font-size: 1.6rem;
+  line-height: 2.5rem;
 
   @media only screen and (max-width: 1016px) {
     font-size: 1.4rem;

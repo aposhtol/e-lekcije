@@ -160,7 +160,7 @@ const Grid = styled.div`
   grid-gap: 2rem;
   justify-content: center;
   align-content: center;
-  margin-bottom: 4rem;
+  margin-bottom: 7rem;
 
   @media only screen and (max-width: 1016px) {
     grid-template-columns: repeat(auto-fit, 16rem);
@@ -170,6 +170,11 @@ const Grid = styled.div`
   @media only screen and (max-width: 380px) {
     grid-template-columns: repeat(auto-fit, 14rem);
     grid-gap: 0.5rem;
+    margin-bottom: 8rem;
+  }
+
+  @media only screen and (min-width: 381px) and (max-width: 528px) {
+    margin-bottom: 10.5rem;
   }
 `;
 

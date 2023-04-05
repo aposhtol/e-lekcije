@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import styled, { keyframes } from 'styled-components';
 import bgiHigh from '../assets/images/mid.webp';
 import bgiElem from '../assets/images/elem.webp';
+import Cogs from '../assets/images/main-cogs.svg';
 
 const Home = ({ onGradeChange }) => {
   const grades = useSelector((state) => state.grades);
@@ -126,10 +127,11 @@ const Container = styled.main`
   width: 90%;
   height: 100%;
   margin: 0 auto;
-  margin-top: 11rem;
+  margin-top: 10rem;
+  margin-bottom: 6rem;
 
   @media only screen and (max-width: 380px) {
-    margin-top: 9rem;
+    margin-top: 8.5rem;
   }
 `;
 
@@ -159,11 +161,13 @@ const FlexItem = styled.div`
   text-align: center;
   cursor: pointer;
 
-  background: rgba(255, 255, 255, 0.25);
+  //background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   border-radius: 10px;
+
+  background-image: url(${Cogs});
 
   animation: ${({ animated }) => animated && appear} 0.45s ease-out both;
 
@@ -213,3 +217,5 @@ const Title = styled.div`
     font-size: 2.4rem;
   }
 `;
+
+//"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='135' height='135' viewBox='0 0 360 360'%3E%3Cpath fill='%23AC9EFF' fill-opacity='0.4'
