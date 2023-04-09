@@ -1,4 +1,5 @@
-import styled from 'styled-components';
+import { useEffect } from 'react';
+import styled, { keyframes } from 'styled-components';
 import Cogs from '../assets/images/player-cogs.svg';
 
 const About = () => {
@@ -36,6 +37,17 @@ const About = () => {
   );
 };
 
+const scaleIn = keyframes`
+  0% {
+    transform: scaleY(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+`;
+
 export default About;
 
 const Container = styled.article`
@@ -58,6 +70,8 @@ const Card = styled.div`
   box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
+
+  animation: ${scaleIn} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 `;
 
 const Title = styled.h1`
