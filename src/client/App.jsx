@@ -1,3 +1,4 @@
+import loadable from '@loadable/component';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { initializePlaylists } from './reducers/playlistReducer';
@@ -5,22 +6,25 @@ import { Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import Main from './components/Main';
-import Playlists from './components/Playlists';
-import Videolist from './components/Videolist';
-import PlayerView from './components/PlayerView';
-import About from './components/About';
+const Playlists = loadable(() => import('./components/Playlists'));
+//import Playlists from './components/Playlists';
+const Videolist = loadable(() => import('./components/Videolist'));
+//import Videolist from './components/Videolist';
+const PlayerView = loadable(() => import('./components/PlayerView'));
+//import PlayerView from './components/PlayerView';
+const About = loadable(() => import('./components/About'));
+//import About from './components/About';
 import styled, { createGlobalStyle } from 'styled-components';
 
 const App = () => {
   const dispatch = useDispatch();
+  const [grade, setGrade] = useState([]);
 
   useEffect(() => {
     dispatch(initializePlaylists());
   }, [dispatch]);
 
   const playlists = useSelector((state) => state.playlists);
-
-  const [grade, setGrade] = useState([]);
 
   const filteredList = playlists.filter(
     (pl) => pl.type == grade.type && pl.grade == grade.grade

@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
-import { FaGithub } from 'react-icons/fa';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 const Footer = () => {
   return (
@@ -11,7 +11,20 @@ const Footer = () => {
         </Heading>
         <LWrap>
           <StyledLink to='/about'>O aplikaciji</StyledLink>
-          <StyledLink as='a' href='https://github.com/aposhtol' target='_blank'>
+          <StyledLink
+            as='a'
+            href='https://www.linkedin.com/in/aposhtol/'
+            target='_blank'
+            alt='LinkedIn Icon'
+          >
+            <LIIcon />
+          </StyledLink>
+          <StyledLink
+            as='a'
+            href='https://github.com/aposhtol'
+            target='_blank'
+            alt='GitHub Icon'
+          >
             <GHIcon />
           </StyledLink>
         </LWrap>
@@ -67,15 +80,16 @@ const Heading = styled.h1`
   color: #1443d5;
   padding: 0 2rem;
   text-align: center;
+  padding-bottom: 0.5rem;
   text-shadow: 5px 5px 10px rgba(125, 148, 219, 0.75);
 
   > i {
     font-size: inherit;
   }
 
-  @media only screen and (max-width: 528px) {
+  @media only screen and (max-width: 545px) {
     padding-bottom: 1rem;
-    font-size: 1.4rem;
+    font-size: 1.6rem;
     padding-bottom: 0.5rem;
   }
 `;
@@ -98,8 +112,8 @@ const StyledLink = styled(Link)`
     color: #107fa6;
   }
 
-  @media only screen and (max-width: 528px) {
-    font-size: 1.4rem;
+  @media only screen and (max-width: 545px) {
+    font-size: 1.6rem;
   }
 `;
 
@@ -107,7 +121,16 @@ const GHIcon = styled(FaGithub)`
   font-size: 3rem;
   vertical-align: middle;
 
-  @media only screen and (max-width: 528px) {
-    font-size: 2rem;
+  @media only screen and (max-width: 545px) {
+    font-size: 2.5rem;
+  }
+`;
+
+const LIIcon = styled(FaLinkedin)`
+  font-size: 3rem;
+  vertical-align: middle;
+
+  @media only screen and (max-width: 545px) {
+    font-size: 2.5rem;
   }
 `;
