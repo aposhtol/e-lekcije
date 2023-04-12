@@ -161,7 +161,6 @@ const FlexItem = styled.div`
   text-align: center;
   cursor: pointer;
 
-  //background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -199,7 +198,6 @@ const Title = styled.div`
     rgb(255, 255, 255) 0.96017px -0.279416px 0px;
 
   font-size: 3.2rem;
-  //margin-top: 2rem;
   text-align: center;
   padding: 1.5rem;
   border-radius: 10px;
@@ -217,5 +215,3 @@ const Title = styled.div`
     font-size: 2.4rem;
   }
 `;
-
-//"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='135' height='135' viewBox='0 0 360 360'%3E%3Cpath fill='%23AC9EFF' fill-opacity='0.4'

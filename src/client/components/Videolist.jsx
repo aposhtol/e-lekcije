@@ -161,7 +161,6 @@ const Title = styled.div`
   color: #1034a6;
   text-shadow: 0px 0px 10px rgba(55, 16, 166, 0.5);
   font-size: 2.2rem;
-  //margin: 3rem auto;
   text-align: center;
   padding: 1.5rem;
 

@@ -54,7 +54,6 @@ const Foot = styled.footer`
   left: 0;
   width: 100vw;
   padding: 0.5rem 0;
-  //height: 4rem;
   flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
@@ -67,10 +66,6 @@ const Foot = styled.footer`
   box-shadow: 0px 4px 10px 5px rgba(29, 63, 212, 0.5);
 
   animation: ${slideInBottom} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-
-  /*@media only screen and (max-width: 380px) {
-    height: 3rem;
-  }*/
 `;
 
 const Heading = styled.h1`

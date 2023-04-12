@@ -263,7 +263,6 @@ const PlayerTextContainer = styled.div`
   text-align: center;
   padding: 2rem;
   background-image: url(${Cogs});
-  //background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
@@ -405,11 +404,6 @@ const PlaylistImg = styled.img`
     height: 7.875rem;
     width: 14rem;
   }
-
-  /*@media only screen and (max-width: 380px) {
-    height: 7.875rem;
-    width: 14rem;
-  }*/
 `;
 
 const PlaylistTextArea = styled.div`
@@ -431,4 +425,3 @@ const PlaylistText = styled.p`
   font-size: 1.2rem;
   text-align: center;
 `;
-//{videos[0].snippet.title.match(/^[^\d]*/g)}
