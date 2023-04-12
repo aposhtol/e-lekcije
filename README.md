@@ -21,7 +21,7 @@ This is a demo app to showcase my current coding skills.
 
 **Client:** React, Redux, Styled Components
 
-**Server:** Vite, Node, Express, Mongoose
+**Server:** Vite, Node, Express
 
 **Database:** MongoDB
 
