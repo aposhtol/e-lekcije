@@ -68,7 +68,3 @@ Start the server
 ## Screenshots
 
 ![App Screenshot](https://e-lekcije.online//screenshot.jpg)
-
-## License
-
-[MIT](https://choosealicense.com/licenses/mit/)
