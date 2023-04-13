@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import styled, { keyframes } from 'styled-components';
 import Cogs from '../assets/images/player-cogs.svg';
 
@@ -37,6 +36,8 @@ const About = () => {
   );
 };
 
+export default About;
+
 const scaleIn = keyframes`
   0% {
     transform: scaleY(0);
@@ -47,8 +48,6 @@ const scaleIn = keyframes`
     opacity: 1;
   }
 `;
-
-export default About;
 
 const Container = styled.article`
   display: flex;

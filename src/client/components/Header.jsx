@@ -9,8 +9,8 @@ const Header = () => {
           <Logo>e-lekcije</Logo>
         </Link>
         <Nav>
-          <StyledLink>Prijava</StyledLink>
-          <StyledLink>Registracija</StyledLink>
+          <StyledLink to='/login'>Prijava</StyledLink>
+          <StyledLink to='/register'>Registracija</StyledLink>
         </Nav>
       </Head>
     </>
@@ -86,7 +86,7 @@ const Nav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  visibility: hidden;
+  //visibility: hidden;
 `;
 
 const StyledLink = styled(Link)`

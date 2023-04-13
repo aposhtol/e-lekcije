@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { initializePlaylists } from './reducers/playlistReducer';
 import { Routes, Route } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
+import Notice from './components/Notification';
 
 const Header = loadable(() => import('./components/Header'));
 const Footer = loadable(() => import('./components/Footer'));
@@ -12,6 +13,8 @@ const Playlists = loadable(() => import('./components/Playlists'));
 const Videolist = loadable(() => import('./components/Videolist'));
 const PlayerView = loadable(() => import('./components/PlayerView'));
 const About = loadable(() => import('./components/About'));
+const Register = loadable(() => import('./components/Register'));
+const Login = loadable(() => import('./components/Login'));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -44,6 +47,7 @@ const App = () => {
     <Container>
       <GlobalStyles />
       <Header />
+      <Notice />
       <Footer />
       <Routes>
         <Route path='/' element={<Main onGradeChange={handleGradeChange} />} />
@@ -56,6 +60,8 @@ const App = () => {
           path='playlists/:id/:id'
           element={<PlayerView grade={grade} />}
         />
+        <Route path='register' element={<Register />} />
+        <Route path='login' element={<Login />} />
         <Route path='about' element={<About />} />
       </Routes>
     </Container>

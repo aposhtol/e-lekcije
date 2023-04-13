@@ -13,17 +13,22 @@ import {
 import playlistReducer from './reducers/playlistReducer';
 import gradesReducer from './reducers/gradesReducer';
 import videosReducer from './reducers/videosReducer';
+import userReducer from './reducers/userReducer';
+import notificationReducer from './reducers/notificationReducer';
 
 const persistConfig = {
   key: 'root',
   version: 1,
   storage,
+  blacklist: ['user', 'notification'],
 };
 
 const rootReducer = combineReducers({
   playlists: playlistReducer,
   grades: gradesReducer,
   videos: videosReducer,
+  user: userReducer,
+  notification: notificationReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
