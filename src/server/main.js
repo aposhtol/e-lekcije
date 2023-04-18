@@ -8,9 +8,10 @@ const { info } = require('./utils/logger');
 const middleware = require('./middleware');
 const routes = require('./routes');
 const ViteExpress = require('vite-express');
+const { request } = require('./controllers/register');
 
 const app = express();
-app.use(morgan('short'));
+app.use(morgan('tiny'));
 
 const connectDB = async () => {
   try {
@@ -24,7 +25,9 @@ const connectDB = async () => {
 
 app.use(cors());
 app.use(express.json());
+app.use(middleware.tokenExtractor);
 app.use(routes);
+app.use(middleware.errorHandler);
 
 connectDB().then(() => {
   ViteExpress.listen(app, config.PORT, () =>

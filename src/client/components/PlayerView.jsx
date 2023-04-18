@@ -1,15 +1,17 @@
 import ReactPlayer from 'react-player/youtube';
 import { useSelector } from 'react-redux';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { useRef, useEffect } from 'react';
 import Cogs from '../assets/images/player-cogs.svg';
+import { TiArrowBackOutline } from 'react-icons/ti';
 
 const PlayerView = ({ grade }) => {
   const navigate = useNavigate();
   const videos = useSelector((state) => state.videos);
   const id = useParams().id;
   const video = videos.find((v) => v.id === id);
+  console.log(video);
 
   let urls = null;
   urls = video.snippet.description.match(
@@ -20,32 +22,13 @@ const PlayerView = ({ grade }) => {
     window.scrollTo(0, 0);
   }, []);
 
-  //console.log(video);
-  //console.log(urls);
-
-  /*const backToSubjects = () => {
-    const backHandler = event => navigate('/playlists');
-
-    window.addEventListener('popstate', backHandler);
-
-    return () => window.removeEventListener('popstate', backHandler);
-  };*/
-
-  /*useEffect(() => {
-    const backHandler = (event) => navigate('/playlists');
-
-    window.addEventListener('popstate', backHandler);
-
-    return () => window.removeEventListener('popstate', backHandler);
-  }, []);*/
-
   const scrollRef = useHorizontalScroll();
 
-  function handleReplace(newId) {
+  const handleReplace = (newId) => {
     navigate(`/playlists/${video.snippet.playlistId}/${newId}`, {
       replace: true,
     });
-  }
+  };
 
   return (
     <Container>
@@ -90,6 +73,10 @@ const PlayerView = ({ grade }) => {
         />
 
         <PlayerTextContainer>
+          <Back as='a' href='/playlists'>
+            <ArrBack />
+            <BackText>Natrag na predmete</BackText>
+          </Back>
           <Heading>{video.snippet.title.match(/(?<=- ).+|(?<=-).+/g)}</Heading>
           <PlayerText>
             {videos[0].snippet.title.match(/^.+?(?=, \d|\s\d)/g)}
@@ -105,8 +92,9 @@ const PlayerView = ({ grade }) => {
             {video.snippet.description.match(
               /(?<=Autor:|Autori:).*?(?=\r\n|\n|\r)/g
             )}
+            <Hr />
             <Wrapper>
-              {urls ? 'Dodatni sadržaji: ' : null}
+              {urls ? <Ds>Dodatni sadržaji:</Ds> : null}
               {urls &&
                 urls.map((url) => (
                   <Urls key={crypto.randomUUID()} href={url} target='_blank'>
@@ -237,10 +225,6 @@ const PlayerSection = styled.div`
   @media only screen and (max-width: 1016px) {
     flex-direction: column;
     align-items: center;
-    margin-bottom: 7.5rem;
-  }
-
-  @media only screen and (max-height: 1016px) {
     margin-bottom: 10rem;
   }
 `;
@@ -262,6 +246,7 @@ const PlayerTextContainer = styled.div`
   width: 70%;
   text-align: center;
   padding: 2rem;
+  //background-color: #d4eeff;
   background-image: url(${Cogs});
   box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(4px);
@@ -269,22 +254,23 @@ const PlayerTextContainer = styled.div`
 
   animation: ${slideInRight} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 
-  @media only screen and (min-width: 1016px) and (max-width: 1366px) {
-    width: 85%;
+  @media only screen and (min-width: 1016px) and (max-width: 1250px) {
+    width: 50%;
   }
 
   @media only screen and (max-width: 1016px) {
     width: 100%;
+    overflow-y: hidden;
   }
 `;
 
 const Heading = styled.h1`
-  font-size: 2rem;
+  font-size: 2.4rem;
   letter-spacing: 0.01rem;
   padding-bottom: 2rem;
 
   @media only screen and (max-width: 1016px) {
-    font-size: 1.6rem;
+    font-size: 2rem;
   }
 `;
 
@@ -297,9 +283,46 @@ const PlayerText = styled.div`
   }
 `;
 
+const Hr = styled.hr`
+  margin: 1rem auto;
+  overflow: visible;
+  height: 30px;
+  border-style: solid;
+  border-color: rgba(2, 126, 251, 1);
+  border-width: 1px 0 0 0;
+  border-radius: 20px;
+
+  &::before {
+    display: block;
+    content: '';
+    height: 30px;
+    margin-top: -31px;
+    border-style: solid;
+    border-color: black;
+    border-width: 0 0 1px 0;
+    border-radius: 20px;
+  }
+`;
+
 const Wrapper = styled.div`
-  padding-top: 2rem;
+  margin-top: -2rem;
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, 20rem);
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  grid-gap: 0.5rem;
+
+  @media only screen and (max-width: 1016px) {
+    grid-template-columns: repeat(auto-fit, 18rem);
+  }
+`;
+
+const Ds = styled.p`
+  padding-bottom: 0.3rem;
   font-size: 1.6rem;
+  grid-column: 1/-1;
 
   @media only screen and (max-width: 1016px) {
     font-size: 1.4rem;
@@ -311,13 +334,15 @@ const Urls = styled.a`
 `;
 
 const Button = styled.button`
+  word-wrap: break-word;
   font-size: 1.4rem;
   font-family: inherit;
-  margin: 1rem auto;
-  width: auto;
+  margin: 0 auto;
+  width: 20rem;
+  min-height: 6rem;
   color: #fff;
   border-radius: 5px;
-  padding: 10px 25px;
+  padding: 1rem;
   background: transparent;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -341,6 +366,30 @@ const Button = styled.button`
       rgba(2, 126, 251, 1) 100%
     );
   }
+
+  @media only screen and (max-width: 1016px) {
+    font-size: 1.2rem;
+    width: 18rem;
+    min-height: 5.5rem;
+    padding: 0.5rem;
+  }
+`;
+
+const Back = styled(Button)`
+  text-decoration: none;
+  min-height: 0;
+  margin-bottom: 2rem;
+
+  @media only screen and (max-width: 1016px) {
+    width: 18rem;
+    min-height: 0;
+  }
+`;
+
+const BackText = styled.p`
+  font-size: 1.4rem;
+  display: inline;
+  vertical-align: middle;
 
   @media only screen and (max-width: 1016px) {
     font-size: 1.2rem;
@@ -425,3 +474,19 @@ const PlaylistText = styled.p`
   font-size: 1.2rem;
   text-align: center;
 `;
+
+const ArrBack = styled(TiArrowBackOutline)`
+  font-size: 2.5rem;
+  vertical-align: middle;
+  margin-right: 1.5rem;
+
+  @media only screen and (max-width: 1016px) {
+    font-size: 2rem;
+  }
+`;
+
+/*${({ urls }) =>
+    urls.length === 1 &&
+    css`
+      grid-template-columns: 20rem;
+    `};*/

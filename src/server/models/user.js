@@ -1,14 +1,8 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  username: String,
-  passwordHash: String,
-  comments: [
-    {
-      type: mongoose.ObjectId,
-      ref: 'Comment',
-    },
-  ],
+  username: { type: String, required: true },
+  passwordHash: { type: String, required: true },
 });
 
 userSchema.set('toJSON', {

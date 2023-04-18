@@ -125,11 +125,11 @@ const Container = styled.main`
   height: 100%;
   margin: 0 auto;
   margin-top: 10rem;
-  margin-bottom: 7rem;
+  //margin-bottom: 7rem;
 
   @media only screen and (max-width: 380px) {
     margin-top: 8.5rem;
-    margin-bottom: 5.5rem;
+    //margin-bottom: 5.5rem;
   }
 `;
 
@@ -160,7 +160,8 @@ const Grid = styled.div`
   grid-gap: 2rem;
   justify-content: center;
   align-content: center;
-  margin-bottom: 7rem;
+  padding-bottom: 7rem;
+  //margin-bottom: 7rem;
 
   @media only screen and (max-width: 1016px) {
     grid-template-columns: repeat(auto-fit, 16rem);
@@ -170,11 +171,15 @@ const Grid = styled.div`
   @media only screen and (max-width: 380px) {
     grid-template-columns: repeat(auto-fit, 14rem);
     grid-gap: 0.5rem;
-    margin-bottom: 8rem;
+    //margin-bottom: 8rem;
+  }
+
+  @media only screen and (max-width: 625px) {
+    margin-bottom: 2rem;
   }
 
   @media only screen and (min-width: 381px) and (max-width: 528px) {
-    margin-bottom: 10.5rem;
+    //margin-bottom: 10.5rem;
   }
 `;
 

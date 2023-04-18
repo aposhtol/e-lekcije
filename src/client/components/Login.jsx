@@ -1,13 +1,15 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setLogin } from '../reducers/userReducer';
+import Notice from './Notification';
 import styled, { keyframes } from 'styled-components';
 import Cogs from '../assets/images/player-cogs.svg';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const user = useSelector((state) => state.user);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -16,14 +18,18 @@ const Login = () => {
     event.preventDefault();
     const userObj = { username, password };
     dispatch(setLogin(userObj));
-    navigate('/');
     setUsername('');
     setPassword('');
   };
 
+  useEffect(() => {
+    user ? navigate('/') : null;
+  }, [handleLogin]);
+
   return (
     <Container>
       <Card>
+        <Notice />
         <h1>Prijavite se</h1>
         <form onSubmit={handleLogin}>
           <label htmlFor='Username'>Korisničko ime:</label>
@@ -31,6 +37,7 @@ const Login = () => {
             required
             id='username'
             type='text'
+            autoComplete='on'
             value={username}
             name='Username'
             onChange={({ target }) => setUsername(target.value)}
@@ -40,7 +47,8 @@ const Login = () => {
           <input
             required
             id='password'
-            type='text'
+            type='password'
+            autoComplete='on'
             value={password}
             name='Password'
             onChange={({ target }) => setPassword(target.value)}

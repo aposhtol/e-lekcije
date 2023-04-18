@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { initializePlaylists } from './reducers/playlistReducer';
 import { Routes, Route } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
-import Notice from './components/Notification';
+import { isUserLoggedIn } from './reducers/userReducer';
 
 const Header = loadable(() => import('./components/Header'));
 const Footer = loadable(() => import('./components/Footer'));
@@ -22,6 +22,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializePlaylists());
+    //dispatch(isUserLoggedIn());
   }, [dispatch]);
 
   const playlists = useSelector((state) => state.playlists);
@@ -47,7 +48,6 @@ const App = () => {
     <Container>
       <GlobalStyles />
       <Header />
-      <Notice />
       <Footer />
       <Routes>
         <Route path='/' element={<Main onGradeChange={handleGradeChange} />} />
@@ -78,6 +78,7 @@ font-size: 62.5%;
 margin: 0;
 padding: 0;
 box-sizing: border-box;
+
 }
 
 body {
@@ -104,6 +105,12 @@ scroll-behavior: smooth;
 `;
 
 const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  position: relative;
+  overflow-y: hidden;
+
   @media screen and (min-width: 320px) and (max-width: 1016px) and (orientation: landscape) {
     transform: rotate(-90deg);
     transform-origin: left top;

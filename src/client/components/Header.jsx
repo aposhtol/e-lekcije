@@ -1,19 +1,31 @@
 import styled, { keyframes } from 'styled-components';
 import { Link } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { handleLogout } from '../reducers/userReducer';
 
 const Header = () => {
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
   return (
-    <>
-      <Head>
-        <Link style={{ textDecoration: 'none' }} to='/'>
-          <Logo>e-lekcije</Logo>
-        </Link>
-        <Nav>
-          <StyledLink to='/login'>Prijava</StyledLink>
-          <StyledLink to='/register'>Registracija</StyledLink>
-        </Nav>
-      </Head>
-    </>
+    <Head>
+      <Link style={{ textDecoration: 'none' }} to='/'>
+        <Logo>e-lekcije</Logo>
+      </Link>
+      <Nav>
+        {user ? (
+          <UserWrapper>
+            {user.username}
+            <Button onClick={() => dispatch(handleLogout())}>Odjava</Button>
+          </UserWrapper>
+        ) : (
+          <div>
+            <StyledLink to='/login'>Prijava</StyledLink>
+            <StyledLink to='/register'>Registracija</StyledLink>
+          </div>
+        )}
+      </Nav>
+    </Head>
   );
 };
 
@@ -51,7 +63,7 @@ const Head = styled.header`
   left: 0;
   width: 100vw;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
   z-index: 10;
   background: linear-gradient(
@@ -89,6 +101,17 @@ const Nav = styled.nav`
   //visibility: hidden;
 `;
 
+const UserWrapper = styled.div`
+  font-size: 1.8rem;
+  color: #1443d5;
+  //padding: 0 1.2rem;
+  text-shadow: 0px 0px 5px rgba(125, 148, 219, 0.5);
+
+  @media only screen and (max-width: 528px) {
+    font-size: 1.4rem;
+  }
+`;
+
 const StyledLink = styled(Link)`
   font-size: 1.8rem;
   color: #1443d5;
@@ -96,15 +119,50 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   padding: 0 1.2rem;
   text-shadow: 0px 0px 5px rgba(125, 148, 219, 0.5);
-  &:hover {
+  */ &:hover {
     color: #107fa6;
   }
 
   @media only screen and (max-width: 528px) {
-    font-size: 1.4rem;
+    font-size: 1.6rem;
   }
 `;
 
+const Button = styled.button`
+  font-size: 1.4rem;
+  font-family: inherit;
+  margin: 2rem;
+  color: #fff;
+  border-radius: 5px;
+  padding: 10px 25px;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  padding: 0.5rem 1.5rem;
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+  outline: none;
+  background: rgb(6, 14, 131);
+  background: linear-gradient(
+    0deg,
+    rgba(6, 14, 131, 1) 0%,
+    rgba(12, 25, 180, 1) 100%
+  );
+  border: none;
+
+  &:hover {
+    background: rgb(0, 3, 255);
+    background: linear-gradient(
+      0deg,
+      rgba(0, 3, 255, 1) 0%,
+      rgba(2, 126, 251, 1) 100%
+    );
+  }
+
+  @media only screen and (max-width: 1016px) {
+    font-size: 1.2rem;
+  }
+`;
 /*const Hamburger = styled(FaBars)`
   display: none;
   color: #0000cd;

@@ -15,10 +15,12 @@ const Home = ({ onGradeChange }) => {
     navigate('/playlists');
   };
 
-  const [animated, setAnimated] = useState(false);
+  const [animated, setAnimated] = useState(true);
 
   useEffect(() => {
-    setAnimated(true);
+    setTimeout(() => {
+      setAnimated(false);
+    }, 550);
   }, []);
 
   return (
@@ -30,7 +32,6 @@ const Home = ({ onGradeChange }) => {
           .map((gr) => (
             <FlexItem
               animated={animated}
-              onMouseOver={() => setAnimated(false)}
               key={crypto.randomUUID()}
               onClick={() => handleClick(gr)}
             >
@@ -46,7 +47,6 @@ const Home = ({ onGradeChange }) => {
           .map((gr) => (
             <FlexItem
               animated={animated}
-              onMouseOver={() => setAnimated(false)}
               key={crypto.randomUUID()}
               onClick={() => handleClick(gr)}
             >
@@ -125,7 +125,6 @@ const Container = styled.main`
   flex-direction: column;
   align-items: center;
   width: 90%;
-  height: 100%;
   margin: 0 auto;
   margin-top: 10rem;
   margin-bottom: 6rem;
@@ -165,7 +164,7 @@ const FlexItem = styled.div`
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
   border-radius: 10px;
-
+  background-color: #d4eeff;
   background-image: url(${Cogs});
 
   animation: ${({ animated }) => animated && appear} 0.45s ease-out both;

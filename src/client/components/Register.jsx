@@ -1,17 +1,16 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-//import { setLogin } from '../reducers/userReducer';
 import { register } from '../reducers/userReducer';
 import Notice from './Notification';
 import styled, { keyframes } from 'styled-components';
 import Cogs from '../assets/images/player-cogs.svg';
-//import { setNotification } from '../reducers/notificationReducer';
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
+  const user = useSelector((state) => state.user);
 
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -20,11 +19,14 @@ const Login = () => {
     event.preventDefault();
     const userObj = { username, password, confirm };
     dispatch(register(userObj));
-    navigate('/');
     setUsername('');
     setPassword('');
     setConfirm('');
   };
+
+  useEffect(() => {
+    user ? navigate('/') : null;
+  }, [handleLogin]);
 
   return (
     <Container>
@@ -37,6 +39,8 @@ const Login = () => {
             required
             id='username'
             type='text'
+            autoComplete='on'
+            maxLength={30}
             value={username}
             name='Username'
             onChange={({ target }) => setUsername(target.value)}
@@ -46,7 +50,8 @@ const Login = () => {
           <input
             required
             id='password'
-            type='text'
+            type='password'
+            autoComplete='on'
             value={password}
             name='Password'
             onChange={({ target }) => setPassword(target.value)}
@@ -55,7 +60,8 @@ const Login = () => {
           <input
             required
             id='confirm'
-            type='text'
+            type='password'
+            autoComplete='on'
             value={confirm}
             name='Confirm'
             onChange={({ target }) => setConfirm(target.value)}
