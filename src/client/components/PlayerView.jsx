@@ -1,17 +1,19 @@
 import ReactPlayer from 'react-player/youtube';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
 import { useRef, useEffect } from 'react';
 import Cogs from '../assets/images/player-cogs.svg';
 import { TiArrowBackOutline } from 'react-icons/ti';
+import { getComments } from '../reducers/commentsReducer';
 
 const PlayerView = ({ grade }) => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const videos = useSelector((state) => state.videos);
+  const comments = useSelector((state) => state.comments);
   const id = useParams().id;
   const video = videos.find((v) => v.id === id);
-  console.log(video);
 
   let urls = null;
   urls = video.snippet.description.match(
@@ -20,6 +22,7 @@ const PlayerView = ({ grade }) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    dispatch(getComments(video.id));
   }, []);
 
   const scrollRef = useHorizontalScroll();
@@ -28,6 +31,7 @@ const PlayerView = ({ grade }) => {
     navigate(`/playlists/${video.snippet.playlistId}/${newId}`, {
       replace: true,
     });
+    dispatch(getComments(newId));
   };
 
   return (
@@ -71,30 +75,38 @@ const PlayerView = ({ grade }) => {
           width='100%'
           height='100%'
         />
-
         <PlayerTextContainer>
           <Back as='a' href='/playlists'>
             <ArrBack />
             <BackText>Natrag na predmete</BackText>
           </Back>
-          <Heading>{video.snippet.title.match(/(?<=- ).+|(?<=-).+/g)}</Heading>
-          <PlayerText>
-            {videos[0].snippet.title.match(/^.+?(?=, \d|\s\d)/g)}
-            {' - '}
-            {grade && grade.grade}. razred{' '}
-            {!grade
-              ? null
-              : grade.type == 'elem'
-              ? 'osnovne škole'
-              : 'srednje škole'}
-            <br />
-            Autor:
-            {video.snippet.description.match(
-              /(?<=Autor:|Autori:).*?(?=\r\n|\n|\r)/g
-            )}
-            <Hr />
+          <div>
+            <Heading>
+              {video.snippet.title.match(/(?<=- ).+|(?<=-).+/g)}
+            </Heading>
+            <Title>
+              {videos[0].snippet.title.match(/^.+?(?=, \d|\s\d)/g)}
+              {' - '}
+              {grade && grade.grade}. razred{' '}
+              {!grade
+                ? null
+                : grade.type == 'elem'
+                ? 'osnovne škole'
+                : 'srednje škole'}
+            </Title>
+            <Author>
+              Autor:
+              {video.snippet.description.match(
+                /(?<=Autor:|Autori:).*?(?=\r\n|\n|\r)/g
+              )}
+            </Author>
+          </div>
+          <AddFav></AddFav>
+        </PlayerTextContainer>
+        {urls ? (
+          <LinksContainer>
+            <LinksHeader>Dodatni sadržaji</LinksHeader>
             <Wrapper>
-              {urls ? <Ds>Dodatni sadržaji:</Ds> : null}
               {urls &&
                 urls.map((url) => (
                   <Urls key={crypto.randomUUID()} href={url} target='_blank'>
@@ -102,8 +114,16 @@ const PlayerView = ({ grade }) => {
                   </Urls>
                 ))}
             </Wrapper>
-          </PlayerText>
-        </PlayerTextContainer>
+          </LinksContainer>
+        ) : null}
+        <CommentsContainer>
+          <CommentsHeader>Rasprava o nastavnoj jedinici</CommentsHeader>
+          {comments.map((com) => (
+            <CommentText key={com.id}>
+              {com.content} {com.date}
+            </CommentText>
+          ))}
+        </CommentsContainer>
       </PlayerSection>
     </Container>
   );
@@ -140,7 +160,7 @@ const hoverItem = keyframes`
   }
 `;
 
-const slideDiv = keyframes`
+const slideInTop = keyframes`
   0% {
     transform: translateY(-500px);
     animation-timing-function: ease-in;
@@ -209,27 +229,109 @@ const Container = styled.main`
   width: 100%;
   margin: 0 auto;
   margin-top: 7rem;
+  margin-bottom: 8rem;
 
-  @media only screen and (max-width: 528px) {
+  /*@media only screen and (max-width: 528px) {
     margin-top: 5.5rem;
+    margin-bottom: 10rem;
+  }*/
+`;
+
+const PlaylistsSlide = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  grid-gap: 1rem;
+  width: 100%;
+  padding: 2rem;
+  overflow-x: scroll;
+
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #f5f5f5;
+  }
+
+  &::-webkit-scrollbar {
+    height: 1rem;
+    background-color: #f5f5f5;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #1d3fd47f;
+  }
+
+  animation: ${slideInTop} 1.1s both;
+`;
+
+const PlaylistItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+  text-decoration: none;
+  &:hover {
+    animation: ${hoverItem} 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  }
+
+  &:focus {
+    animation: ${hoverItem} 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
   }
 `;
 
-const PlayerSection = styled.div`
-  display: flex;
-  flex-direction: row;
-  width: 95%;
-  max-width: 1920px;
-  gap: 2rem;
+const PlaylistImg = styled.img`
+  src: ${({ src }) => src};
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  height: 9rem;
+  width: 16rem;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
 
   @media only screen and (max-width: 1016px) {
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 10rem;
+    height: 7.875rem;
+    width: 14rem;
+  }
+`;
+
+const PlaylistTextArea = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 9rem;
+  padding: 0.5rem;
+  text-shadow: 5px 5px 10px rgba(125, 148, 219, 0.75);
+
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-top-left-radius: none;
+  border-top-right-radius: none;
+`;
+
+const PlaylistText = styled.p`
+  color: #1443d5;
+  font-size: 1.2rem;
+  text-align: center;
+`;
+
+const PlayerSection = styled.div`
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  grid-template-rows: auto;
+  grid-gap: 2rem;
+  width: 95%;
+  max-width: 1920px;
+
+  @media only screen and (max-width: 1016px) {
+    grid-template-columns: 1fr;
   }
 `;
 
 const Player = styled(ReactPlayer)`
+  grid-area: 1 / 1 / 2 / 2;
+
   aspect-ratio: 16/9;
   background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
@@ -237,16 +339,23 @@ const Player = styled(ReactPlayer)`
   -webkit-backdrop-filter: blur(4px);
 
   animation: ${slideInLeft} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+
+  @media only screen and (max-width: 1016px) {
+    grid-area: 1 / 1 / 2 / 2;
+  }
 `;
 
 const PlayerTextContainer = styled.div`
+  grid-area: 1 / 2 / 2 / 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   color: #1443d5;
-  width: 70%;
   text-align: center;
   padding: 2rem;
-  //background-color: #d4eeff;
   background-image: url(${Cogs});
   box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(4px);
@@ -254,83 +363,19 @@ const PlayerTextContainer = styled.div`
 
   animation: ${slideInRight} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 
-  @media only screen and (min-width: 1016px) and (max-width: 1250px) {
-    width: 50%;
-  }
-
   @media only screen and (max-width: 1016px) {
-    width: 100%;
-    overflow-y: hidden;
+    grid-area: 2 / 1 / 3 / 2;
   }
 `;
 
-const Heading = styled.h1`
-  font-size: 2.4rem;
-  letter-spacing: 0.01rem;
-  padding-bottom: 2rem;
+const ArrBack = styled(TiArrowBackOutline)`
+  font-size: 2.5rem;
+  vertical-align: middle;
+  margin-right: 1.5rem;
 
   @media only screen and (max-width: 1016px) {
     font-size: 2rem;
   }
-`;
-
-const PlayerText = styled.div`
-  font-size: 1.6rem;
-  line-height: 2.5rem;
-
-  @media only screen and (max-width: 1016px) {
-    font-size: 1.4rem;
-  }
-`;
-
-const Hr = styled.hr`
-  margin: 1rem auto;
-  overflow: visible;
-  height: 30px;
-  border-style: solid;
-  border-color: rgba(2, 126, 251, 1);
-  border-width: 1px 0 0 0;
-  border-radius: 20px;
-
-  &::before {
-    display: block;
-    content: '';
-    height: 30px;
-    margin-top: -31px;
-    border-style: solid;
-    border-color: black;
-    border-width: 0 0 1px 0;
-    border-radius: 20px;
-  }
-`;
-
-const Wrapper = styled.div`
-  margin-top: -2rem;
-  display: grid;
-
-  grid-template-columns: repeat(auto-fit, 20rem);
-  justify-content: center;
-  align-content: center;
-  align-items: center;
-  grid-gap: 0.5rem;
-
-  @media only screen and (max-width: 1016px) {
-    grid-template-columns: repeat(auto-fit, 18rem);
-  }
-`;
-
-const Ds = styled.p`
-  padding-bottom: 0.3rem;
-  font-size: 1.6rem;
-  grid-column: 1/-1;
-
-  @media only screen and (max-width: 1016px) {
-    font-size: 1.4rem;
-  }
-`;
-
-const Urls = styled.a`
-  text-decoration: none;
 `;
 
 const Button = styled.button`
@@ -396,94 +441,149 @@ const BackText = styled.p`
   }
 `;
 
-const PlaylistsSlide = styled.div`
-  display: grid;
-  grid-auto-flow: column;
-  grid-gap: 1rem;
-  width: 100%;
-  padding: 2rem;
-  overflow-x: scroll;
+const Heading = styled.h1`
+  font-size: 2.6rem;
+  padding-bottom: 0.5rem;
 
-  &::-webkit-scrollbar-track {
-    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-    background-color: #f5f5f5;
+  @media only screen and (max-width: 1016px) {
+    font-size: 2.2rem;
   }
-
-  &::-webkit-scrollbar {
-    height: 1rem;
-    background-color: #f5f5f5;
-  }
-
-  &::-webkit-scrollbar-thumb {
-    background-color: #1d3fd47f;
-  }
-
-  animation: ${slideDiv} 1.1s both;
 `;
 
-const PlaylistItem = styled.div`
+const Title = styled.div`
+  font-size: 1.6rem;
+  font-weight: 500;
+
+  @media only screen and (max-width: 1016px) {
+    font-size: 1.4rem;
+    padding-bottom: 2rem;
+  }
+`;
+const Author = styled.div`
+  padding-top: 2rem;
+  font-size: 1.6rem;
+  line-height: 2.5rem;
+  font-weight: 900;
+
+  @media only screen and (max-width: 1016px) {
+    font-size: 1.4rem;
+    padding-bottom: 2rem;
+  }
+`;
+
+const AddFav = styled(Button)`
+  visibility: hidden;
+`;
+
+const CommentsContainer = styled.div`
+  grid-area: 2 / 1 / 3 / 2;
   display: flex;
   flex-direction: column;
-  cursor: pointer;
-  background: rgba(255, 255, 255, 0.25);
+
+  padding: 2rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #1443d5;
+  background-image: url(${Cogs});
   box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
-  border-radius: 10px;
-  text-decoration: none;
-  &:hover {
-    animation: ${hoverItem} 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  }
 
-  &:focus {
-    animation: ${hoverItem} 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-  }
-`;
-
-const PlaylistImg = styled.img`
-  src: ${({ src }) => src};
-  aspect-ratio: 16/9;
-  object-fit: cover;
-  height: 9rem;
-  width: 16rem;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  animation: ${slideInLeft} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
 
   @media only screen and (max-width: 1016px) {
-    height: 7.875rem;
-    width: 14rem;
+    grid-area: 4 / 1 / 5 / 2;
   }
 `;
 
-const PlaylistTextArea = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 9rem;
-  padding: 0.5rem;
-  text-shadow: 5px 5px 10px rgba(125, 148, 219, 0.75);
-
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
-  border-top-left-radius: none;
-  border-top-right-radius: none;
+const CommentsHeader = styled.h1`
+  font-size: 2rem;
 `;
 
-const PlaylistText = styled.p`
+const CommentText = styled.div`
+  font-size: 1.6rem;
+  font-weight: 500;
+
+  @media only screen and (max-width: 1016px) {
+    font-size: 1.4rem;
+    padding-bottom: 2rem;
+  }
+`;
+
+const LinksContainer = styled.div`
+  grid-area: 2 / 2 / 3 / 3;
+
+  max-height: 120rem;
+  padding: 2rem;
+  font-family: 'Courgette', cursive;
   color: #1443d5;
-  font-size: 1.2rem;
-  text-align: center;
+  background-image: url(${Cogs});
+  box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+
+  animation: ${slideInRight} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+
+  @media only screen and (max-width: 1016px) {
+    grid-area: 3 / 1 / 4 / 2;
+  }
 `;
 
-const ArrBack = styled(TiArrowBackOutline)`
-  font-size: 2.5rem;
-  vertical-align: middle;
-  margin-right: 1.5rem;
+const Wrapper = styled.div`
+  margin-bottom: 2rem;
+  display: grid;
+
+  grid-template-columns: repeat(auto-fit, 20rem);
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  grid-gap: 0.5rem;
+`;
+
+const Urls = styled.a`
+  text-decoration: none;
+`;
+
+const LinksHeader = styled.h1`
+  font-size: 2.4rem;
+  text-align: center;
+  margin-bottom: 2rem;
 
   @media only screen and (max-width: 1016px) {
     font-size: 2rem;
   }
 `;
+
+/*const Hr = styled.hr`
+  margin: 1rem auto;
+  overflow: visible;
+  height: 30px;
+  border-style: solid;
+  border-color: rgba(2, 126, 251, 1);
+  border-width: 1px 0 0 0;
+  border-radius: 20px;
+
+  &::before {
+    display: block;
+    content: '';
+    height: 30px;
+    margin-top: -31px;
+    border-style: solid;
+    border-color: black;
+    border-width: 0 0 1px 0;
+    border-radius: 20px;
+  }
+`;*/
+
+/*const Ds = styled.p`
+  padding-bottom: 0.3rem;
+  font-size: 1.6rem;
+  grid-column: 1/-1;
+
+  @media only screen and (max-width: 1016px) {
+    font-size: 1.4rem;
+  }
+`;*/
 
 /*${({ urls }) =>
     urls.length === 1 &&

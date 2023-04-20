@@ -15,12 +15,13 @@ import gradesReducer from './reducers/gradesReducer';
 import videosReducer from './reducers/videosReducer';
 import userReducer from './reducers/userReducer';
 import notificationReducer from './reducers/notificationReducer';
+import commentsReducer from './reducers/commentsReducer';
 
 const persistConfig = {
   key: 'root',
   version: 1,
   storage,
-  blacklist: ['notification'],
+  blacklist: ['notification', 'comments'],
 };
 
 const rootReducer = combineReducers({
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   videos: videosReducer,
   user: userReducer,
   notification: notificationReducer,
+  comments: commentsReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

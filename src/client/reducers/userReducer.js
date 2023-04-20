@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import loginService from '../services/login';
 import registerService from '../services/register';
-//import blogService from "../services/blogs";
+import commentService from '../services/comments';
 import { setNotification } from './notificationReducer';
 
 const userReducer = createSlice({
@@ -20,7 +20,7 @@ export const register = (userObj) => {
       const user = await registerService.register(userObj);
 
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user));
-      //blogService.setToken(user.token);
+      commentService.setToken(user.token);
 
       dispatch(setUser(user));
     } catch (err) {
@@ -36,7 +36,7 @@ export const setLogin = (userObj) => {
       const user = await loginService.login(userObj);
 
       window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user));
-      //blogService.setToken(user.token);
+      commentService.setToken(user.token);
 
       dispatch(setUser(user));
     } catch (err) {
@@ -52,7 +52,7 @@ export const isUserLoggedIn = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
       dispatch(setUser(user));
-      //blogService.setToken(user.token);
+      commentService.setToken(user.token);
     }
   };
 };
@@ -61,7 +61,7 @@ export const handleLogout = () => {
   return (dispatch) => {
     window.localStorage.removeItem('loggedBlogAppUser');
     dispatch(setUser(null));
-    //blogService.setToken(null);
+    commentService.setToken(null);
   };
 };
 

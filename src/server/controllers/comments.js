@@ -20,6 +20,7 @@ comments.post('/', userExtractor, async (request, response) => {
     video: body.video,
     content: body.content,
     author: user.id,
+    date: new Date(),
   });
 
   const savedComment = await comment.save();

@@ -119,7 +119,7 @@ const StyledLink = styled(Link)`
   text-decoration: none;
   padding: 0 1.2rem;
   text-shadow: 0px 0px 5px rgba(125, 148, 219, 0.5);
-  */ &:hover {
+  &:hover {
     color: #107fa6;
   }
 
