@@ -7,6 +7,8 @@ const Header = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
+  console.log(user);
+
   return (
     <Head>
       <Link style={{ textDecoration: 'none' }} to='/'>
@@ -118,7 +120,8 @@ const StyledLink = styled(Link)`
   cursor: pointer;
   text-decoration: none;
   padding: 0 1.2rem;
-  text-shadow: 0px 0px 5px rgba(125, 148, 219, 0.5);
+  //text-shadow: 0px 0px 5px rgba(125, 148, 219, 0.5);
+  text-shadow: 5px 5px 10px rgba(125, 148, 219, 0.75);
   &:hover {
     color: #107fa6;
   }
@@ -130,7 +133,10 @@ const StyledLink = styled(Link)`
 
 const Button = styled.button`
   font-size: 1.4rem;
-  font-family: inherit;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+
+  font-variant: small-caps;
   margin: 2rem;
   color: #fff;
   border-radius: 5px;

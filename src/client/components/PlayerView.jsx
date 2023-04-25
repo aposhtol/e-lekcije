@@ -2,18 +2,23 @@ import ReactPlayer from 'react-player/youtube';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import styled, { keyframes } from 'styled-components';
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Cogs from '../assets/images/player-cogs.svg';
 import { TiArrowBackOutline } from 'react-icons/ti';
-import { getComments } from '../reducers/commentsReducer';
+import { AiOutlineLike, AiFillLike } from 'react-icons/ai';
+import { createComment, getComments } from '../reducers/commentsReducer';
 
 const PlayerView = ({ grade }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const videos = useSelector((state) => state.videos);
   const comments = useSelector((state) => state.comments);
   const id = useParams().id;
   const video = videos.find((v) => v.id === id);
+  const [content, setContent] = useState('');
+
+  //console.log(comments);
 
   let urls = null;
   urls = video.snippet.description.match(
@@ -32,6 +37,52 @@ const PlayerView = ({ grade }) => {
       replace: true,
     });
     dispatch(getComments(newId));
+  };
+
+  const timeSince = (date) => {
+    const seconds = Math.floor(
+      (new Date(Date.now() - 2 * 60 * 60 * 1000) - date) / 1000
+    );
+    let interval = Math.floor(seconds / 31536000);
+
+    if (interval >= 1) {
+      return `prije ${interval} godin${interval > 4 ? 'a' : 'e'}`;
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval >= 1) {
+      return `prije ${interval} mjesec${
+        interval > 1 ? 'a' : interval > 4 ? 'i' : ''
+      }`;
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval >= 1) {
+      return `prije ${interval} dan${interval > 1 ? 'a' : ''}`;
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval >= 1) {
+      return `prije ${interval} sat${
+        interval > 4 ? 'i' : interval > 1 ? 'a' : ''
+      }`;
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval >= 1) {
+      return `prije ${interval} minut${interval > 4 ? 'a' : 'e'}`;
+    }
+    return `prije ${Math.floor(seconds)} sekund${seconds > 4 ? 'i' : 'e'}`;
+  };
+
+  const addComment = (event) => {
+    event.preventDefault();
+    const comment = {
+      video: video.id,
+      content: content,
+    };
+    dispatch(createComment(comment));
+    setTimeout(() => {
+      dispatch(getComments(video.id));
+    }, 100);
+
+    setContent('');
   };
 
   return (
@@ -118,10 +169,46 @@ const PlayerView = ({ grade }) => {
         ) : null}
         <CommentsContainer>
           <CommentsHeader>Rasprava o nastavnoj jedinici</CommentsHeader>
+          <CommentsSub>
+            Raspravljati mogu samo prijavljeni korisnici
+          </CommentsSub>
+          <CommentForm onSubmit={addComment}>
+            <CommentEntry
+              value={content}
+              onChange={({ target }) => setContent(target.value)}
+              minLength={3}
+              maxLength={1500}
+              autoFocus
+              placeholder='Započnite raspravu...'
+            ></CommentEntry>
+            <CommentSubmit>
+              {user ? (
+                <SubmitButton type='submit'>Objavi</SubmitButton>
+              ) : (
+                <Link to={'/login'} style={{ textDecoration: 'none' }}>
+                  <SubmitButton>Prijavi se</SubmitButton>
+                </Link>
+              )}
+            </CommentSubmit>
+          </CommentForm>
           {comments.map((com) => (
-            <CommentText key={com.id}>
-              {com.content} {com.date}
-            </CommentText>
+            <CommentItem key={com.id}>
+              <CommentItemDiv>
+                <CommentAuthor>{com.author.username}</CommentAuthor>
+                <TimeSince>
+                  {timeSince(
+                    new Date(com.date.substring(0, com.date.length - 1))
+                  )}
+                </TimeSince>
+              </CommentItemDiv>
+              <CommentText>{com.content}</CommentText>
+              <LikeReplyWrapper>
+                <div>
+                  <Like /> Sviđa mi se
+                </div>
+                <ReplyButton>Odgovori</ReplyButton>
+              </LikeReplyWrapper>
+            </CommentItem>
           ))}
         </CommentsContainer>
       </PlayerSection>
@@ -319,7 +406,8 @@ const PlaylistText = styled.p`
 const PlayerSection = styled.div`
   display: grid;
   grid-template-columns: 1.5fr 1fr;
-  grid-template-rows: auto;
+  //grid-template-rows: min-content;
+  grid-auto-rows: minmax(min-content, max-content);
   grid-gap: 2rem;
   width: 95%;
   max-width: 1920px;
@@ -354,6 +442,8 @@ const PlayerTextContainer = styled.div`
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   color: #1443d5;
+  text-shadow: 5px 5px 10px rgba(125, 148, 219, 0.75);
+
   text-align: center;
   padding: 2rem;
   background-image: url(${Cogs});
@@ -381,7 +471,7 @@ const ArrBack = styled(TiArrowBackOutline)`
 const Button = styled.button`
   word-wrap: break-word;
   font-size: 1.4rem;
-  font-family: inherit;
+  //font-family: inherit;
   margin: 0 auto;
   width: 20rem;
   min-height: 6rem;
@@ -396,20 +486,12 @@ const Button = styled.button`
     7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
   outline: none;
   background: rgb(6, 14, 131);
-  background: linear-gradient(
-    0deg,
-    rgba(6, 14, 131, 1) 0%,
-    rgba(12, 25, 180, 1) 100%
-  );
+  background: linear-gradient(0deg, #060e83 0%, #0c1ab4 100%);
   border: none;
 
   &:hover {
     background: rgb(0, 3, 255);
-    background: linear-gradient(
-      0deg,
-      rgba(0, 3, 255, 1) 0%,
-      rgba(2, 126, 251, 1) 100%
-    );
+    background: linear-gradient(0deg, #0004ff 0%, #027efb 100%);
   }
 
   @media only screen and (max-width: 1016px) {
@@ -424,6 +506,7 @@ const Back = styled(Button)`
   text-decoration: none;
   min-height: 0;
   margin-bottom: 2rem;
+  font-variant: small-caps;
 
   @media only screen and (max-width: 1016px) {
     width: 18rem;
@@ -479,8 +562,12 @@ const CommentsContainer = styled.div`
   grid-area: 2 / 1 / 3 / 2;
   display: flex;
   flex-direction: column;
+  gap: 2rem;
+  align-items: center;
+  grid-row: span 2;
 
-  padding: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 4rem;
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   color: #1443d5;
@@ -497,25 +584,154 @@ const CommentsContainer = styled.div`
 `;
 
 const CommentsHeader = styled.h1`
-  font-size: 2rem;
+  font-size: 2.4rem;
+  text-shadow: 5px 5px 10px rgba(125, 148, 219, 0.75);
+  text-align: center;
+  margin-bottom: -1.5rem;
+`;
+
+const CommentsSub = styled.p`
+  font-size: 1.2rem;
+  text-align: center;
+  color: #14003a;
+  margin-bottom: 2rem;
+`;
+
+const CommentForm = styled.form`
+  width: 90%;
+`;
+
+const CommentEntry = styled.textarea`
+  width: 100%;
+  resize: vertical;
+  background-color: #ffffffb2;
+  font-family: inherit;
+  font-size: 1.6rem;
+  box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-color: #ffffff;
+  border-radius: 10px;
+  min-height: 10rem;
+  padding: 0.5rem;
+  padding-left: 1rem;
+  color: inherit;
+
+  &:focus {
+    outline-offset: 0px;
+    outline: none;
+  }
+
+  &::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    background-color: #f5f5f5;
+  }
+
+  &::-webkit-scrollbar {
+    width: 1rem;
+    background-color: #f5f5f5;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background-color: #1d3fd47f;
+  }
+`;
+
+const CommentSubmit = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
+  padding-top: 1rem;
+  padding-bottom: 3rem;
+`;
+
+const SubmitButton = styled(Button)`
+  text-decoration: none;
+  margin: 0;
+  width: 10rem;
+  padding: 1rem;
+  min-height: 0.5rem;
+  font-variant: small-caps;
+  //margin-bottom: 2rem;
+
+  /*@media only screen and (max-width: 1016px) {
+    width: 18rem;
+    min-height: 0;
+  }*/
+`;
+
+const CommentItem = styled.div`
+  display: flex;
+  flex-direction: column;
+  padding-left: 2rem;
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+  padding-right: 2rem;
+  width: 90%;
+  //min-height: 10rem;
+
+  background-color: #e2f2ffc0;
+  box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border-radius: 10px;
+`;
+
+const CommentItemDiv = styled.div`
+  display: flex;
+  padding-bottom: 1rem;
+`;
+
+const CommentAuthor = styled.h2`
+  font-size: 1.6rem;
+  font-weight: 700;
+  padding-right: 1rem;
+`;
+
+const TimeSince = styled.p`
+  //color: rgba(53, 104, 255, 0.575);
+  color: #684dffb7;
+  font-family: 'Courgette', cursive;
+  font-size: 1.2rem;
+  padding-top: 0.3rem;
 `;
 
 const CommentText = styled.div`
   font-size: 1.6rem;
-  font-weight: 500;
+  font-weight: 400;
 
   @media only screen and (max-width: 1016px) {
     font-size: 1.4rem;
-    padding-bottom: 2rem;
   }
+`;
+
+const LikeReplyWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding-top: 2rem;
+`;
+
+const Like = styled(AiOutlineLike)`
+  font-size: 2rem;
+`;
+
+const ReplyButton = styled(Button)`
+  font-size: 1.2rem;
+  text-decoration: none;
+  margin: 0;
+  width: 8rem;
+  padding: 0.5rem;
+  min-height: 0.5rem;
+  font-variant: small-caps;
 `;
 
 const LinksContainer = styled.div`
   grid-area: 2 / 2 / 3 / 3;
 
-  max-height: 120rem;
+  height: 100%;
   padding: 2rem;
   font-family: 'Courgette', cursive;
+  text-shadow: 5px 5px 10px rgba(125, 148, 219, 0.75);
   color: #1443d5;
   background-image: url(${Cogs});
   box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
@@ -554,7 +770,10 @@ const LinksHeader = styled.h1`
   }
 `;
 
-/*const Hr = styled.hr`
+/*const Dummy = styled.div`
+  height: 1rem;
+`;
+const Hr = styled.hr`
   margin: 1rem auto;
   overflow: visible;
   height: 30px;

@@ -108,7 +108,8 @@ const StyledLink = styled(Link)`
   cursor: pointer;
   text-decoration: none;
   //padding: 0 1.2rem;
-  text-shadow: 0px 0px 5px rgba(125, 148, 219, 0.5);
+  //text-shadow: 0px 0px 5px rgba(125, 148, 219, 0.5);
+  text-shadow: 5px 5px 10px rgba(125, 148, 219, 0.75);
   &:hover {
     color: #107fa6;
   }

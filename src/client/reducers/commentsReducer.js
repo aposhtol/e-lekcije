@@ -35,7 +35,7 @@ export const createComment = (comment) => {
   return async (dispatch) => {
     try {
       const cmt = await commentsService.create(comment);
-      dispatch(appendComment(cmt));
+
       dispatch(
         setNotification(`A new blog ${cmt.title} by ${cmt.author} added`, 5000)
       );

@@ -22,7 +22,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(initializePlaylists());
-    //dispatch(isUserLoggedIn());
+    dispatch(isUserLoggedIn());
   }, [dispatch]);
 
   const playlists = useSelector((state) => state.playlists);
