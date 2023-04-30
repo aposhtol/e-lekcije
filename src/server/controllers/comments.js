@@ -35,7 +35,7 @@ comments.put('/:id', userExtractor, async (request, response) => {
   if (comment.likedBy.includes(user.id)) {
     return response
       .status(400)
-      .json({ message: 'You have already liked this comment.' });
+      .json({ message: 'Već ste označili da vam se sviđa' });
   }
 
   const updatedComment = await Comment.findByIdAndUpdate(

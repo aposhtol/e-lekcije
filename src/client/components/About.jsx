@@ -82,6 +82,7 @@ const P = styled.p`
   line-height: 2.7rem;
   text-align: justify;
 `;
+
 const Em = styled.p`
   font-weight: bold;
   font-style: italic;

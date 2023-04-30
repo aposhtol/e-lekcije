@@ -21,19 +21,13 @@ const create = async (newObject) => {
   return response.data;
 };
 
-const update = async (id, newObject) => {
+const update = async (id) => {
   const config = {
     headers: { Authorization: token },
   };
-
-  const response = await axios.put(`${baseUrl}/${id}`, newObject, config);
+  const response = await axios.put(`${baseUrl}/${id}`, {}, config);
   return response.data;
 };
-
-/*const comment = async (id, newObject) => {
-  const response = await axios.post(`${baseUrl}/${id}/comments`, newObject);
-  return response.data;
-};*/
 
 const remove = async (id) => {
   const config = {

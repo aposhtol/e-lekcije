@@ -15,6 +15,8 @@ const PlayerView = loadable(() => import('./components/PlayerView'));
 const About = loadable(() => import('./components/About'));
 const Register = loadable(() => import('./components/Register'));
 const Login = loadable(() => import('./components/Login'));
+const Profile = loadable(() => import('./components/Profile'));
+const FavPlayer = loadable(() => import('./components/FavPlayer'));
 
 const App = () => {
   const dispatch = useDispatch();
@@ -63,6 +65,8 @@ const App = () => {
         <Route path='register' element={<Register />} />
         <Route path='login' element={<Login />} />
         <Route path='about' element={<About />} />
+        <Route path='profile' element={<Profile />} />
+        <Route path='profile/:id' element={<FavPlayer grade={grade} />} />
       </Routes>
     </Container>
   );

@@ -53,6 +53,8 @@ register.post('/', async (req, res) => {
   res.status(200).send({
     token,
     username: savedUser.username,
+    id: savedUser._id,
+    favorites: [],
   });
 });
 

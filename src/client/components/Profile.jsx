@@ -1,46 +1,37 @@
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
-import { getVideos } from '../reducers/videosReducer';
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
+import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { getFavorites } from '../reducers/videosReducer';
+import { useEffect } from 'react';
 
-const Videolist = ({ grade }) => {
+const Profile = () => {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
   const videos = useSelector((state) => state.videos);
-  const id = useParams().id;
   const [animated, setAnimated] = useState(true);
   const [hidden, setHidden] = useState(true);
 
   useEffect(() => {
-    dispatch(getVideos(id));
+    dispatch(getFavorites(user.favorites));
 
     setTimeout(() => {
       setHidden(false);
     }, 500);
   }, [dispatch]);
 
-  //console.log(videos);
   if (hidden) return null;
+
+  console.log(user.favorites.length);
 
   return (
     <Container>
       <Grid>
-        <Title>
-          {videos[0].snippet.title.match(/^.+?(?=, \d|\s\d)/g)}
-          {' - '}
-          {grade && grade.grade}. razred{' '}
-          {!grade
-            ? null
-            : grade.type == 'elem'
-            ? 'osnovne škole'
-            : 'srednje škole'}
-        </Title>
-
+        <Title>Moji favoriti</Title>
         {videos.map((v) => (
           <CardItem
             key={v.id}
-            to={v.snippet.resourceId.videoId}
+            to={`/profile/${v.id}`}
             animated={animated ? 1 : 0}
             onMouseOver={() => setAnimated(false)}
           >
@@ -66,23 +57,17 @@ const Videolist = ({ grade }) => {
             </CardTextArea>
           </CardItem>
         ))}
-
-        <Title>
-          {videos[0].snippet.title.match(/^.+?(?=, \d|\s\d)/g)}
-          {' - '}
-          {grade && grade.grade}. razred{' '}
-          {!grade
-            ? null
-            : grade.type == 'elem'
-            ? 'osnovne škole'
-            : 'srednje škole'}
-        </Title>
+        {user.favorites.length === 0 ? (
+          <Title>Nema favorita :(</Title>
+        ) : (
+          <Title>Moji favoriti</Title>
+        )}
       </Grid>
     </Container>
   );
 };
 
-export default Videolist;
+export default Profile;
 
 const hoverItem = keyframes`
   0% {
@@ -184,7 +169,8 @@ const Grid = styled.div`
   grid-gap: 2rem;
   justify-content: center;
   align-content: center;
-  margin-bottom: 7rem;
+  padding-bottom: 7rem;
+  //margin-bottom: 7rem;
 
   @media only screen and (max-width: 1016px) {
     grid-template-columns: repeat(auto-fit, 16rem);
@@ -198,7 +184,7 @@ const Grid = styled.div`
   }
 
   @media only screen and (max-width: 625px) {
-    margin-bottom: 10rem;
+    margin-bottom: 2rem;
   }
 
   @media only screen and (min-width: 381px) and (max-width: 528px) {
@@ -248,8 +234,8 @@ const CardTextArea = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 9rem;
-  padding: 0.5rem;
+  height: 8rem;
+  padding: 1rem;
   text-shadow: 5px 5px 10px rgba(125, 148, 219, 0.75);
 
   border-bottom-left-radius: 10px;
@@ -258,14 +244,14 @@ const CardTextArea = styled.div`
   border-top-right-radius: none;
 
   @media only screen and (max-width: 1016px) {
-    height: 9rem;
+    height: 6.5rem;
     padding: 1rem;
   }
 `;
 
 const CardText = styled.p`
   color: #1443d5;
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   text-align: center;
 
   @media only screen and (max-width: 1016px) {

@@ -1,13 +1,12 @@
 import styled, { keyframes } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { handleLogout } from '../reducers/userReducer';
 
 const Header = () => {
   const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
-  console.log(user);
+  const navigate = useNavigate();
 
   return (
     <Head>
@@ -17,13 +16,25 @@ const Header = () => {
       <Nav>
         {user ? (
           <UserWrapper>
-            {user.username}
+            <StyledLink to='/profile'>{user.username}</StyledLink>
             <Button onClick={() => dispatch(handleLogout())}>Odjava</Button>
           </UserWrapper>
         ) : (
           <div>
-            <StyledLink to='/login'>Prijava</StyledLink>
-            <StyledLink to='/register'>Registracija</StyledLink>
+            <LinkWRedirect
+              onClick={() =>
+                navigate('/login', { state: { from: location.pathname } })
+              }
+            >
+              Prijava
+            </LinkWRedirect>
+            <LinkWRedirect
+              onClick={() =>
+                navigate('/register', { state: { from: location.pathname } })
+              }
+            >
+              Registracija
+            </LinkWRedirect>
           </div>
         )}
       </Nav>
@@ -115,6 +126,23 @@ const UserWrapper = styled.div`
 `;
 
 const StyledLink = styled(Link)`
+  font-size: 1.8rem;
+  color: #1443d5;
+  cursor: pointer;
+  text-decoration: none;
+  padding: 0 1.2rem;
+  //text-shadow: 0px 0px 5px rgba(125, 148, 219, 0.5);
+  text-shadow: 5px 5px 10px rgba(125, 148, 219, 0.75);
+  &:hover {
+    color: #107fa6;
+  }
+
+  @media only screen and (max-width: 528px) {
+    font-size: 1.6rem;
+  }
+`;
+
+const LinkWRedirect = styled.span`
   font-size: 1.8rem;
   color: #1443d5;
   cursor: pointer;

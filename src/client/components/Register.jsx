@@ -1,22 +1,29 @@
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { register } from '../reducers/userReducer';
 import Notice from './Notification';
 import styled, { keyframes } from 'styled-components';
 import Cogs from '../assets/images/player-cogs.svg';
 
-const Login = () => {
+const Register = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [confirm, setConfirm] = useState('');
+  const [email, setEmail] = useState('');
   const user = useSelector((state) => state.user);
 
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
 
   const handleLogin = (event) => {
     event.preventDefault();
+
+    if (email) {
+      return null;
+    }
+
     const userObj = { username, password, confirm };
     dispatch(register(userObj));
     setUsername('');
@@ -25,17 +32,25 @@ const Login = () => {
   };
 
   useEffect(() => {
-    user ? navigate('/') : null;
+    user ? navigate(location.state?.from || '/') : null;
   }, [handleLogin]);
 
   return (
     <Container>
       <Card>
         <Notice />
-        <h1>Registirajte se</h1>
-        <form onSubmit={handleLogin}>
-          <label htmlFor='Username'>Korisničko ime:</label>
-          <input
+
+        <Form onSubmit={handleLogin}>
+          <Title>Registracija</Title>
+          <P>
+            Postupak registracije ciljano od korisnika ne traži nikakve osobne
+            podatke, čak ni e-mail adresu, kako bi se osigurala što veća
+            anonimnost i zaštitio identitet korisnika. Preporučuje se
+            registrirati s korisničkim imenom koje ni po čemu ne otkriva
+            identitet.
+          </P>
+
+          <Input
             required
             id='username'
             type='text'
@@ -43,37 +58,56 @@ const Login = () => {
             maxLength={30}
             value={username}
             name='Username'
+            placeholder='Korisničko ime (min. 4 znaka)'
             onChange={({ target }) => setUsername(target.value)}
           />
 
-          <label htmlFor='Password'>Lozinka:</label>
-          <input
+          <Input
             required
             id='password'
             type='password'
             autoComplete='on'
             value={password}
             name='Password'
+            placeholder='Lozinka (min. 8 znakova)'
             onChange={({ target }) => setPassword(target.value)}
           />
-          <label htmlFor='Confirm'>Lozinka ponovno:</label>
-          <input
+
+          <Input
             required
             id='confirm'
             type='password'
             autoComplete='on'
             value={confirm}
             name='Confirm'
+            placeholder='Lozinka ponovno'
             onChange={({ target }) => setConfirm(target.value)}
           />
-          <button type='submit'>Registracija</button>
-        </form>
+          <Input
+            style={{ visibility: 'hidden' }}
+            id='email'
+            type='email'
+            autoComplete='off'
+            tabIndex='-1'
+            value={email}
+            name='Email'
+            placeholder='E-mail'
+            onChange={({ target }) => setEmail(target.value)}
+          />
+          <Button type='submit'>Registrirajte se</Button>
+          <P>
+            Već ste registrirani?{' '}
+            <P as={Link} to='/login'>
+              Prijavite se
+            </P>
+          </P>
+        </Form>
       </Card>
     </Container>
   );
 };
 
-export default Login;
+export default Register;
 
 const scaleIn = keyframes`
   0% {
@@ -96,17 +130,90 @@ const Container = styled.article`
 const Card = styled.div`
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
     Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  font-size: 5rem;
   text-shadow: 5px 5px 10px rgba(125, 148, 219, 0.75);
   color: #1443d5;
-  max-width: 800px;
   margin: 10rem 2rem;
-  text-align: center;
-  padding: 2rem;
+  width: 800px;
+  padding: 4rem;
   background-image: url(${Cogs});
+  border-radius: 10px;
   box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 
   animation: ${scaleIn} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+
+  @media only screen and (max-width: 1016px) {
+    width: min-content;
+    padding: 2rem;
+  }
+`;
+
+const Title = styled.h1`
+  font-size: 3.5rem;
+  font-variant: small-caps;
+  margin: 0 auto;
+
+  @media only screen and (max-width: 1016px) {
+    font-size: 2.8rem;
+  }
+`;
+
+const P = styled.p`
+  margin-top: -2rem;
+  font-size: 1.4rem;
+  color: #14003a;
+  text-align: justify;
+  padding-bottom: 2rem;
+`;
+
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2.5rem;
+  font-size: 2rem;
+  margin: 0 auto;
+`;
+
+const Label = styled.label`
+  font-size: inherit;
+`;
+
+const Input = styled.input`
+  font-size: inherit;
+  background-color: #ffffffb2;
+  border: none;
+  outline: none;
+  border-radius: 15px;
+  padding: 0 2rem;
+  height: 4rem;
+  color: #1443d5;
+
+  &::placeholder {
+    font-size: 1.8rem;
+  }
+`;
+
+const Button = styled.button`
+  font-size: 1.4rem;
+  font-variant: small-caps;
+  margin-bottom: 2rem;
+  margin-top: -6rem;
+  width: 15rem;
+  color: #fff;
+  border-radius: 10px;
+  padding: 1.5rem;
+  cursor: pointer;
+  box-shadow: inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),
+    7px 7px 20px 0px rgba(0, 0, 0, 0.1), 4px 4px 5px 0px rgba(0, 0, 0, 0.1);
+  background: rgb(6, 14, 131);
+  background: linear-gradient(0deg, #060e83 0%, #0c1ab4 100%);
+  border: none;
+
+  &:hover {
+    background: rgb(0, 3, 255);
+    background: linear-gradient(0deg, #0004ff 0%, #027efb 100%);
+  }
 `;

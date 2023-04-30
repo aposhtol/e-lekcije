@@ -14,17 +14,17 @@ import {
 } from '../reducers/commentsReducer';
 import { setFavorite } from '../reducers/userReducer';
 
-const PlayerView = ({ grade }) => {
+const FavPlayer = ({ grade }) => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const videos = useSelector((state) => state.videos);
   const comments = useSelector((state) => state.comments);
   const id = useParams().id;
-  const video = videos.find((v) => v.snippet.resourceId.videoId === id);
+  const video = videos.find((v) => v.id === id);
   const [content, setContent] = useState('');
 
-  //console.log(videos);
+  console.log(videos);
   //console.log(user);
 
   let urls = null;
@@ -34,13 +34,13 @@ const PlayerView = ({ grade }) => {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    dispatch(getComments(video.snippet.resourceId.videoId));
+    dispatch(getComments(video.id));
   }, []);
 
   const scrollRef = useHorizontalScroll();
 
   const handleReplace = (newId) => {
-    navigate(`/playlists/${video.snippet.playlistId}/${newId}`, {
+    navigate(`/profile/${newId}`, {
       replace: true,
     });
     dispatch(getComments(newId));
@@ -80,14 +80,14 @@ const PlayerView = ({ grade }) => {
 
   const refreshComments = () => {
     setTimeout(() => {
-      dispatch(getComments(video.snippet.resourceId.videoId));
+      dispatch(getComments(video.id));
     }, 100);
   };
 
   const addComment = (event) => {
     event.preventDefault();
     const comment = {
-      video: video.snippet.resourceId.videoId,
+      video: video.id,
       content: content,
     };
     dispatch(createComment(comment));
@@ -101,17 +101,13 @@ const PlayerView = ({ grade }) => {
     refreshComments();
   };
 
-  const handleLogin = () => {
-    navigate('/login', { state: { from: location.pathname } });
-  };
-
   return (
     <Container>
       <PlaylistsSlide ref={scrollRef}>
         {videos.map((v) => (
           <PlaylistItem
             key={v.id}
-            onClick={() => handleReplace(v.snippet.resourceId.videoId)}
+            onClick={() => handleReplace(v.id)}
             tabIndex='1'
           >
             <PlaylistImg
@@ -142,14 +138,14 @@ const PlayerView = ({ grade }) => {
         <Player
           playing={true}
           controls={true}
-          url={`https://www.youtube.com/watch?v=${video.snippet.resourceId.videoId}?rel=0`}
+          url={`https://www.youtube.com/watch?v=${video.id}?rel=0`}
           width='100%'
           height='100%'
         />
         <PlayerTextContainer>
-          <Back as='a' href='/playlists'>
+          <Back as='a' href='/profile'>
             <ArrBack />
-            <BackText>Natrag na predmete</BackText>
+            <BackText>Natrag na favorite</BackText>
           </Back>
           <div>
             <Heading>
@@ -172,9 +168,7 @@ const PlayerView = ({ grade }) => {
               )}
             </Author>
           </div>
-          {user &&
-          user.favorites &&
-          user.favorites.includes(video.snippet.resourceId.videoId) ? (
+          {user && user.favorites && user.favorites.includes(video.id) ? (
             <AddFav>
               <Favorited />
               <BackText>Moj favorit</BackText>
@@ -211,7 +205,7 @@ const PlayerView = ({ grade }) => {
           <CommentForm onSubmit={addComment}>
             {!user ? (
               <CommentEntry
-                onClick={() => handleLogin()}
+                onClick={() => navigate('/login')}
                 autoFocus
                 placeholder='Započnite raspravu...'
               ></CommentEntry>
@@ -275,7 +269,7 @@ const PlayerView = ({ grade }) => {
   );
 };
 
-export default PlayerView;
+export default FavPlayer;
 
 function useHorizontalScroll() {
   const elRef = useRef();
@@ -386,8 +380,8 @@ const Container = styled.main`
 const PlaylistsSlide = styled.div`
   display: grid;
   grid-auto-flow: column;
-  justify-content: start;
   grid-gap: 1rem;
+  justify-content: start;
   width: 100%;
   padding: 2rem;
   overflow-x: scroll;
@@ -412,8 +406,8 @@ const PlaylistsSlide = styled.div`
 const PlaylistItem = styled.div`
   display: flex;
   flex-direction: column;
-  cursor: pointer;
   width: 16rem;
+  cursor: pointer;
   background: rgba(255, 255, 255, 0.25);
   box-shadow: 0 8px 16px 0 rgba(31, 38, 135, 0.37);
   backdrop-filter: blur(4px);

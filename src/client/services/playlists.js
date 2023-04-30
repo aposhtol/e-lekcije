@@ -25,6 +25,25 @@ const fetchVideos = async (playlistId) => {
   return videos;
 };
 
-const playlistService = { getAll, fetchVideos };
+const fetchFavorites = async (videolist) => {
+  let videos = [];
+  let nextPageToken = '';
+
+  do {
+    const response = await axios.get(
+      `https://youtube.googleapis.com/youtube/v3/videos?part=snippet&id=${videolist.join(
+        '%2C'
+      )}&maxResults=50&pageToken=${nextPageToken}&key=${apiKey}`
+    );
+
+    const data = response.data;
+    videos = videos.concat(data.items);
+    nextPageToken = data.nextPageToken;
+  } while (nextPageToken);
+
+  return videos;
+};
+
+const playlistService = { getAll, fetchVideos, fetchFavorites };
 
 export default playlistService;

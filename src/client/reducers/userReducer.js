@@ -2,6 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import loginService from '../services/login';
 import registerService from '../services/register';
 import commentService from '../services/comments';
+import userService from '../services/user';
 import { setNotification } from './notificationReducer';
 
 const userReducer = createSlice({
@@ -11,6 +12,11 @@ const userReducer = createSlice({
     setUser(state, action) {
       return action.payload;
     },
+    /*setFav(state, action) {
+      //const newFav = action.payload.favorite;
+
+      return state.map((user) => (user.favorites = action.payload.favorites));
+    },*/
   },
 });
 
@@ -19,8 +25,9 @@ export const register = (userObj) => {
     try {
       const user = await registerService.register(userObj);
 
-      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user));
+      window.localStorage.setItem('loggedAppUser', JSON.stringify(user));
       commentService.setToken(user.token);
+      userService.setToken(user.token);
 
       dispatch(setUser(user));
     } catch (err) {
@@ -35,8 +42,9 @@ export const setLogin = (userObj) => {
     try {
       const user = await loginService.login(userObj);
 
-      window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user));
+      window.localStorage.setItem('loggedAppUser', JSON.stringify(user));
       commentService.setToken(user.token);
+      userService.setToken(user.token);
 
       dispatch(setUser(user));
     } catch (err) {
@@ -47,21 +55,35 @@ export const setLogin = (userObj) => {
 };
 
 export const isUserLoggedIn = () => {
-  return (dispatch) => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogAppUser');
+  return () => {
+    const loggedUserJSON = window.localStorage.getItem('loggedAppUser');
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON);
-      dispatch(setUser(user));
       commentService.setToken(user.token);
+      userService.setToken(user.token);
+    }
+  };
+};
+
+export const setFavorite = (id, favorite) => {
+  return async (dispatch) => {
+    try {
+      const response = await userService.update(id, favorite);
+      dispatch(setUser(response));
+      //window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user));
+      //dispatch(setNotification(`You liked ${updatedBlog.title}!`, 5000));
+    } catch (err) {
+      dispatch(setNotification(err.response.data.error, 5000));
     }
   };
 };
 
 export const handleLogout = () => {
   return (dispatch) => {
-    window.localStorage.removeItem('loggedBlogAppUser');
+    window.localStorage.removeItem('loggedAppUser');
     dispatch(setUser(null));
     commentService.setToken(null);
+    userService.setToken(null);
   };
 };
 

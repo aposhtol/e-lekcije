@@ -6,6 +6,7 @@ const replySchema = new mongoose.Schema({
   likes: { type: Number, default: 0 },
   likedBy: [{ type: mongoose.ObjectId, ref: 'User' }],
   comment: { type: mongoose.Schema.Types.ObjectId, ref: 'Comment' },
+  date: Date,
 });
 
 replySchema.set('toJSON', {
