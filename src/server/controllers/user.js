@@ -12,7 +12,7 @@ user.put('/:id', userExtractor, async (request, response) => {
   if (user.favorites.includes(favorite)) {
     return response
       .status(400)
-      .json({ message: 'Već ste označili da vam se sviđa' });
+      .json({ error: 'Već ste označili da vam se sviđa' });
   }
 
   const updatedFavorite = await User.findByIdAndUpdate(

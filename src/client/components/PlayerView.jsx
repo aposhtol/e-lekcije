@@ -13,6 +13,7 @@ import {
   likeComment,
 } from '../reducers/commentsReducer';
 import { setFavorite } from '../reducers/userReducer';
+import { setNotification } from '../reducers/notificationReducer';
 
 const PlayerView = ({ grade }) => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ const PlayerView = ({ grade }) => {
   const user = useSelector((state) => state.user);
   const videos = useSelector((state) => state.videos);
   const comments = useSelector((state) => state.comments);
+  const message = useSelector((state) => state.notification);
   const id = useParams().id;
   const video = videos.find((v) => v.snippet.resourceId.videoId === id);
   const [content, setContent] = useState('');
@@ -172,10 +174,18 @@ const PlayerView = ({ grade }) => {
               )}
             </Author>
           </div>
-          {user &&
-          user.favorites &&
-          user.favorites.includes(video.snippet.resourceId.videoId) ? (
-            <AddFav>
+          {!user ? (
+            <AddFav onClick={() => handleLogin()}>
+              <FavIcon />
+              <BackText>Dodaj u favorite</BackText>
+            </AddFav>
+          ) : user.favorites &&
+            user.favorites.includes(video.snippet.resourceId.videoId) ? (
+            <AddFav
+              onClick={() =>
+                dispatch(setNotification('Video je već u favoritima', 5000))
+              }
+            >
               <Favorited />
               <BackText>Moj favorit</BackText>
             </AddFav>
@@ -249,7 +259,7 @@ const PlayerView = ({ grade }) => {
               <CommentText>{com.content}</CommentText>
               <LikeReplyWrapper>
                 {!user ? (
-                  <LikeWrapper onClick={() => navigate('/login')}>
+                  <LikeWrapper onClick={() => handleLogin()}>
                     <Like /> <LikeText>{com.likes}</LikeText>
                   </LikeWrapper>
                 ) : (
@@ -260,7 +270,7 @@ const PlayerView = ({ grade }) => {
                 )}
 
                 {!user ? (
-                  <ReplyButton onClick={() => navigate('/login')}>
+                  <ReplyButton onClick={() => handleLogin()}>
                     Odgovori
                   </ReplyButton>
                 ) : (
@@ -271,6 +281,7 @@ const PlayerView = ({ grade }) => {
           ))}
         </CommentsContainer>
       </PlayerSection>
+      {message && <NoticeWrapper>{message}</NoticeWrapper>}
     </Container>
   );
 };
@@ -478,6 +489,7 @@ const PlayerSection = styled.div`
 
   @media only screen and (max-width: 1016px) {
     grid-template-columns: 1fr;
+    grid-gap: 1rem;
   }
 `;
 
@@ -890,6 +902,26 @@ const LinksHeader = styled.h1`
   font-size: 2.4rem;
   text-align: center;
   margin-bottom: 2rem;
+
+  @media only screen and (max-width: 1016px) {
+    font-size: 2rem;
+  }
+`;
+
+const NoticeWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  font-size: 3rem;
+  padding: 1rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #fff;
+  text-align: center;
+  z-index: 11;
+  background: #1443d5;
+  background: linear-gradient(to right, #1443d5 0%, #0c2a85 50%, #091f63 100%);
 
   @media only screen and (max-width: 1016px) {
     font-size: 2rem;

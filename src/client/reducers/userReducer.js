@@ -12,11 +12,6 @@ const userReducer = createSlice({
     setUser(state, action) {
       return action.payload;
     },
-    /*setFav(state, action) {
-      //const newFav = action.payload.favorite;
-
-      return state.map((user) => (user.favorites = action.payload.favorites));
-    },*/
   },
 });
 
@@ -32,7 +27,6 @@ export const register = (userObj) => {
       dispatch(setUser(user));
     } catch (err) {
       dispatch(setNotification(err.response.data.error, 5000));
-      console.log(err.response.data.error);
     }
   };
 };
@@ -49,7 +43,6 @@ export const setLogin = (userObj) => {
       dispatch(setUser(user));
     } catch (err) {
       dispatch(setNotification(err.response.data.error, 5000));
-      console.log(err.response.data.error);
     }
   };
 };
@@ -70,8 +63,6 @@ export const setFavorite = (id, favorite) => {
     try {
       const response = await userService.update(id, favorite);
       dispatch(setUser(response));
-      //window.localStorage.setItem('loggedBlogAppUser', JSON.stringify(user));
-      //dispatch(setNotification(`You liked ${updatedBlog.title}!`, 5000));
     } catch (err) {
       dispatch(setNotification(err.response.data.error, 5000));
     }

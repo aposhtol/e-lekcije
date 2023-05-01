@@ -17,7 +17,7 @@ export const initializePlaylists = () => {
       const playlists = await playlistService.getAll();
       dispatch(setPlaylists(playlists));
     } catch (err) {
-      console.error(err);
+      dispatch(setNotification(err.response.data.error, 5000));
     }
   };
 };

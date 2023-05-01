@@ -13,12 +13,6 @@ register.post('/', async (req, res) => {
     });
   }
 
-  /*if (!username || !password || !confirm) {
-    return res.status(400).send({
-      error: 'Username and password required.',
-    });
-  }*/
-
   if (username.length < 4 || password.length < 8) {
     return res.status(400).json({
       error: 'Korisničko ime ili lozinka prekratki.',
@@ -42,7 +36,6 @@ register.post('/', async (req, res) => {
 
   const savedUser = await user.save();
 
-  //response.status(201).send(savedUser);
   const userForToken = {
     username: savedUser.username,
     id: savedUser._id,

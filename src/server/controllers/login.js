@@ -41,7 +41,7 @@ login.put('/:id', userExtractor, async (request, response) => {
   if (comment.likedBy.includes(user.id)) {
     return response
       .status(400)
-      .json({ message: 'Već ste označili da vam se sviđa' });
+      .json({ error: 'Već ste označili da vam se sviđa' });
   }
 
   const updatedComment = await Comment.findByIdAndUpdate(

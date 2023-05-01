@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled, { keyframes } from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getFavorites } from '../reducers/videosReducer';
 import { useEffect } from 'react';
@@ -13,7 +13,7 @@ const Profile = () => {
   const [hidden, setHidden] = useState(true);
 
   useEffect(() => {
-    dispatch(getFavorites(user.favorites));
+    user && dispatch(getFavorites(user.favorites));
 
     setTimeout(() => {
       setHidden(false);
@@ -22,7 +22,7 @@ const Profile = () => {
 
   if (hidden) return null;
 
-  console.log(user.favorites.length);
+  //console.log(user.favorites.length);
 
   return (
     <Container>
@@ -57,7 +57,7 @@ const Profile = () => {
             </CardTextArea>
           </CardItem>
         ))}
-        {user.favorites.length === 0 ? (
+        {user && user.favorites.length === 0 ? (
           <Title>Nema favorita :(</Title>
         ) : (
           <Title>Moji favoriti</Title>

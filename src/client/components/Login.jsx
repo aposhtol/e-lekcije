@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { setLogin } from '../reducers/userReducer';
-import Notice from './Notification';
 import styled, { keyframes } from 'styled-components';
 import Cogs from '../assets/images/player-cogs.svg';
 
@@ -11,6 +10,7 @@ const Login = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const user = useSelector((state) => state.user);
+  const message = useSelector((state) => state.notification);
 
   const navigate = useNavigate();
   const location = useLocation();
@@ -36,8 +36,6 @@ const Login = () => {
   return (
     <Container>
       <Card>
-        <Notice />
-
         <Form onSubmit={handleLogin}>
           <Title>Prijavite se</Title>
 
@@ -82,6 +80,7 @@ const Login = () => {
           </P>
         </Form>
       </Card>
+      {message && <NoticeWrapper>{message}</NoticeWrapper>}
     </Container>
   );
 };
@@ -104,11 +103,12 @@ const Container = styled.article`
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 `;
 
 const Card = styled.div`
-  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
-    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: inherit;
   text-shadow: 5px 5px 10px rgba(125, 148, 219, 0.75);
   color: #1443d5;
   margin: 10rem 2rem;
@@ -156,10 +156,6 @@ const Form = styled.form`
   margin: 0 auto;
 `;
 
-const Label = styled.label`
-  font-size: inherit;
-`;
-
 const Input = styled.input`
   font-size: inherit;
   background-color: #ffffffb2;
@@ -194,5 +190,24 @@ const Button = styled.button`
   &:hover {
     background: rgb(0, 3, 255);
     background: linear-gradient(0deg, #0004ff 0%, #027efb 100%);
+  }
+`;
+
+const NoticeWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  font-size: 3rem;
+  padding: 1rem;
+  font-family: inherit;
+  color: #fff;
+  text-align: center;
+  z-index: 11;
+  background: #1443d5;
+  background: linear-gradient(to right, #1443d5 0%, #0c2a85 50%, #091f63 100%);
+
+  @media only screen and (max-width: 1016px) {
+    font-size: 2rem;
   }
 `;

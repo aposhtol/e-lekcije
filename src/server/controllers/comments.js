@@ -16,6 +16,12 @@ comments.get('/', async (request, response) => {
 comments.post('/', userExtractor, async (request, response) => {
   const { body, user } = request;
 
+  if (body.content.length < 3) {
+    return response.status(400).json({
+      error: 'Komentar prekratak',
+    });
+  }
+
   const comment = new Comment({
     video: body.video,
     content: body.content,
@@ -35,7 +41,7 @@ comments.put('/:id', userExtractor, async (request, response) => {
   if (comment.likedBy.includes(user.id)) {
     return response
       .status(400)
-      .json({ message: 'Već ste označili da vam se sviđa' });
+      .json({ error: 'Već ste označili da vam se sviđa' });
   }
 
   const updatedComment = await Comment.findByIdAndUpdate(

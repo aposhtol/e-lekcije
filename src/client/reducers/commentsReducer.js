@@ -38,9 +38,7 @@ export const createComment = (comment) => {
     try {
       const cmt = await commentService.create(comment);
 
-      dispatch(
-        setNotification(`A new blog ${cmt.title} by ${cmt.author} added`, 5000)
-      );
+      dispatch(setNotification(`Komentar dodan`, 5000));
     } catch (err) {
       dispatch(setNotification(err.response.data.error, 5000));
     }
@@ -50,12 +48,8 @@ export const createComment = (comment) => {
 export const likeComment = (id) => {
   return async (dispatch) => {
     try {
-      //const state = getState();
-
-      /*const [comment] = state.comments.filter((comment) => comment.id === id);
-      const updatedBlog = { ...blog, likes: blog.likes + 1 };*/
-      const response = await commentService.update(id);
-      dispatch(like(response));
+      const res = await commentService.update(id);
+      dispatch(like(res));
       //dispatch(setNotification(`You liked ${updatedBlog.title}!`, 5000));
     } catch (err) {
       dispatch(setNotification(err.response.data.error, 5000));
@@ -77,6 +71,5 @@ export const deleteComment = (id, name) => {
   };
 };
 
-//export const selectBlogs = (state) => [...state.comments];
 export const { setComments, appendComment, like } = commentReducer.actions;
 export default commentReducer.reducer;

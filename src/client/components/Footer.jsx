@@ -60,7 +60,6 @@ const Foot = styled.footer`
   left: 0;
   width: 100%;
   padding: 0.5rem 0;
-  flex-wrap: wrap;
   justify-content: space-around;
   align-items: center;
   z-index: 10;

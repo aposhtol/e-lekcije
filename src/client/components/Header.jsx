@@ -8,6 +8,11 @@ const Header = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const logout = () => {
+    dispatch(handleLogout());
+    navigate('/');
+  };
+
   return (
     <Head>
       <Link style={{ textDecoration: 'none' }} to='/'>
@@ -17,7 +22,7 @@ const Header = () => {
         {user ? (
           <UserWrapper>
             <StyledLink to='/profile'>{user.username}</StyledLink>
-            <Button onClick={() => dispatch(handleLogout())}>Odjava</Button>
+            <Button onClick={() => logout()}>Odjava</Button>
           </UserWrapper>
         ) : (
           <div>

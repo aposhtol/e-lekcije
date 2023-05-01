@@ -12,7 +12,7 @@ import {
   getComments,
   likeComment,
 } from '../reducers/commentsReducer';
-import { setFavorite } from '../reducers/userReducer';
+import { setNotification } from '../reducers/notificationReducer';
 
 const FavPlayer = ({ grade }) => {
   const navigate = useNavigate();
@@ -20,12 +20,10 @@ const FavPlayer = ({ grade }) => {
   const user = useSelector((state) => state.user);
   const videos = useSelector((state) => state.videos);
   const comments = useSelector((state) => state.comments);
+  const message = useSelector((state) => state.notification);
   const id = useParams().id;
   const video = videos.find((v) => v.id === id);
   const [content, setContent] = useState('');
-
-  console.log(videos);
-  //console.log(user);
 
   let urls = null;
   urls = video.snippet.description.match(
@@ -168,21 +166,15 @@ const FavPlayer = ({ grade }) => {
               )}
             </Author>
           </div>
-          {user && user.favorites && user.favorites.includes(video.id) ? (
-            <AddFav>
-              <Favorited />
-              <BackText>Moj favorit</BackText>
-            </AddFav>
-          ) : (
-            <AddFav
-              onClick={() =>
-                dispatch(setFavorite(user.id, video.snippet.resourceId.videoId))
-              }
-            >
-              <FavIcon />
-              <BackText>Dodaj u favorite</BackText>
-            </AddFav>
-          )}
+
+          <AddFav
+            onClick={() =>
+              dispatch(setNotification('Video je već u favoritima', 5000))
+            }
+          >
+            <Favorited />
+            <BackText>Moj favorit</BackText>
+          </AddFav>
         </PlayerTextContainer>
         {urls ? (
           <LinksContainer>
@@ -265,6 +257,7 @@ const FavPlayer = ({ grade }) => {
           ))}
         </CommentsContainer>
       </PlayerSection>
+      {message && <NoticeWrapper>{message}</NoticeWrapper>}
     </Container>
   );
 };
@@ -472,6 +465,7 @@ const PlayerSection = styled.div`
 
   @media only screen and (max-width: 1016px) {
     grid-template-columns: 1fr;
+    grid-gap: 1rem;
   }
 `;
 
@@ -884,6 +878,26 @@ const LinksHeader = styled.h1`
   font-size: 2.4rem;
   text-align: center;
   margin-bottom: 2rem;
+
+  @media only screen and (max-width: 1016px) {
+    font-size: 2rem;
+  }
+`;
+
+const NoticeWrapper = styled.div`
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  font-size: 3rem;
+  padding: 1rem;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+    Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  color: #fff;
+  text-align: center;
+  z-index: 11;
+  background: #1443d5;
+  background: linear-gradient(to right, #1443d5 0%, #0c2a85 50%, #091f63 100%);
 
   @media only screen and (max-width: 1016px) {
     font-size: 2rem;

@@ -7,7 +7,7 @@
     "name": "Ante Brozović"
   },
   "private": true,
-  "version": "1.1.0",
+  "version": "1.5.0",
   "scripts": {
     "dev": "nodemon src/server/main.js -w src/server",
     "start": "cross-env NODE_ENV=production node src/server/main.js",
