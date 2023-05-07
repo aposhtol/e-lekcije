@@ -50,7 +50,6 @@ export const likeComment = (id) => {
     try {
       const res = await commentService.update(id);
       dispatch(like(res));
-      //dispatch(setNotification(`You liked ${updatedBlog.title}!`, 5000));
     } catch (err) {
       dispatch(setNotification(err.response.data.error, 5000));
     }

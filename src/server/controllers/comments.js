@@ -9,7 +9,7 @@ comments.get('/', async (request, response) => {
 
   const comments = await Comment.find({ video: video })
     .populate('author', { username: 1 })
-    .populate('replies', { content: 1 });
+    .populate('replies', { content: 1, author: 1 });
   response.json(comments);
 });
 
