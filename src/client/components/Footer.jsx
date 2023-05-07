@@ -21,6 +21,7 @@ const Footer = () => {
           href='https://www.linkedin.com/in/aposhtol/'
           target='_blank'
           alt='LinkedIn Icon'
+          aria-label="Link to author's LinkedIn"
         >
           <LIIcon />
         </StyledLink>
@@ -29,6 +30,7 @@ const Footer = () => {
           href='https://github.com/aposhtol'
           target='_blank'
           alt='GitHub Icon'
+          aria-label="Link to author's GitHub"
         >
           <GHIcon />
         </StyledLink>
@@ -37,6 +39,7 @@ const Footer = () => {
           href='https://fly.io'
           target='_blank'
           alt='Fly.io icon'
+          aria-label='Link to Fly software hosting'
         >
           <FlyIcon />
         </StyledLink>
