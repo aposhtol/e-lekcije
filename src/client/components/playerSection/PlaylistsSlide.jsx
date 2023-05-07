@@ -7,11 +7,12 @@ import {
   PlaylistText,
 } from '../StyledComponents';
 import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getComments } from '../../reducers/commentsReducer';
 
-const PlaylistsSlide = ({ videos, videoId, onReplace }) => {
+const PlaylistsSlide = ({ videoId, onReplace }) => {
   const dispatch = useDispatch();
+  const videos = useSelector((state) => state.videos);
   const scrollRef = useHorizontalScroll();
 
   const handleReplace = (newId) => {

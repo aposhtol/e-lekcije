@@ -22,6 +22,16 @@ const Videolist = ({ grade }) => {
   const [animated, setAnimated] = useState(true);
   const [hidden, setHidden] = useState(true);
 
+  useEffect(() => {
+    dispatch(getVideos(id));
+  }, [dispatch]);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setHidden(false);
+    }, 500);
+  }, []);
+
   const cardTitle = (
     <>
       {videos[0].snippet.title.match(/^.+?(?=, \d|\s\d)/g)}
@@ -30,14 +40,6 @@ const Videolist = ({ grade }) => {
       {!grade ? null : grade.type == 'elem' ? 'osnovne škole' : 'srednje škole'}
     </>
   );
-
-  useEffect(() => {
-    dispatch(getVideos(id));
-
-    setTimeout(() => {
-      setHidden(false);
-    }, 500);
-  }, [dispatch]);
 
   if (hidden) return null;
 

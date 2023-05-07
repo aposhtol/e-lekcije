@@ -39,9 +39,15 @@ comments.put('/:id', userExtractor, async (request, response) => {
 
   const comment = await Comment.findById(request.params.id);
   if (comment.likedBy.includes(user.id)) {
-    return response
+    const updatedComment = await Comment.findByIdAndUpdate(
+      request.params.id,
+      { $inc: { likes: -1 }, $pull: { likedBy: user.id } },
+      { new: true }
+    );
+    return response.json(updatedComment);
+    /*return response
       .status(400)
-      .json({ error: 'Već ste označili da vam se sviđa' });
+      .json({ error: 'Već ste označili da vam se sviđa' });*/
   }
 
   const updatedComment = await Comment.findByIdAndUpdate(

@@ -62,8 +62,9 @@ const Player = ({ grade, video, forceLogin, videoId }) => {
           </AddFav>
         ) : user.favorites && user.favorites.includes(videoId) ? (
           <AddFav
-            onClick={() =>
-              dispatch(setNotification('Video je već u favoritima', 5000))
+            onClick={
+              () => dispatch(setFavorite(user.id, videoId))
+              //dispatch(setNotification('Video je već u favoritima', 5000))
             }
           >
             <Favorited />
