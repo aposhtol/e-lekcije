@@ -10,9 +10,9 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getComments } from '../../reducers/commentsReducer';
 
-const PlaylistsSlide = ({ videoId, onReplace }) => {
+const PlaylistsSlide = ({ videos, videoId, onReplace }) => {
   const dispatch = useDispatch();
-  const videos = useSelector((state) => state.videos);
+  //const videos = useSelector((state) => state.videos);
   const scrollRef = useHorizontalScroll();
 
   const handleReplace = (newId) => {

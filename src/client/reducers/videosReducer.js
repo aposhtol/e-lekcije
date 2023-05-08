@@ -67,7 +67,7 @@ export const getVideos = (playlistId) => {
   };
 };
 
-export const getFavorites = (videolist) => {
+/*export const getFavorites = (videolist) => {
   return async (dispatch, getState) => {
     try {
       const videos = await playlistService.fetchFavorites(videolist);
@@ -76,7 +76,7 @@ export const getFavorites = (videolist) => {
       dispatch(setNotification(err.response.data.error, 5000));
     }
   };
-};
+};*/
 
 export const { setVideos } = videosReducer.actions;
 export default videosReducer.reducer;

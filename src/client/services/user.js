@@ -7,11 +7,15 @@ const setToken = (newToken) => {
   token = `bearer ${newToken}`;
 };
 
-const update = async (id, favorite) => {
+const update = async (id, favorite, action) => {
   const config = {
     headers: { Authorization: token },
   };
-  const response = await axios.put(`${baseUrl}/${id}`, { favorite }, config);
+  const response = await axios.put(
+    `${baseUrl}/${id}`,
+    { favorite, action },
+    config
+  );
   return response.data;
 };
 

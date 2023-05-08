@@ -58,10 +58,10 @@ export const isUserLoggedIn = () => {
   };
 };
 
-export const setFavorite = (id, favorite) => {
+export const setFavorite = (id, favorite, action) => {
   return async (dispatch) => {
     try {
-      const response = await userService.update(id, favorite);
+      const response = await userService.update(id, favorite, action);
       dispatch(setUser(response));
     } catch (err) {
       dispatch(setNotification(err.response.data.error, 5000));

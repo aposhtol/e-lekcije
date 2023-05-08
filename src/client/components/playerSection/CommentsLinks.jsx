@@ -125,7 +125,6 @@ const CommentsLinks = ({ video, forceLogin, videoId }) => {
                 )}
               </TimeSince>
             </CommentItemDiv>
-            {console.log(com.likes)}
             <CommentText>{com.content}</CommentText>
             <LikeReplyWrapper>
               {!user ? (

@@ -1,8 +1,6 @@
 import { useState } from 'react';
-import styled, { keyframes } from 'styled-components';
-import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getFavorites } from '../reducers/videosReducer';
+import { getFavorites } from '../reducers/favReducer';
 import { useEffect } from 'react';
 import {
   CardsContainer,
@@ -17,7 +15,7 @@ import {
 const Profile = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
-  const videos = useSelector((state) => state.videos);
+  const favs = useSelector((state) => state.favs);
   const [animated, setAnimated] = useState(true);
   const [hidden, setHidden] = useState(true);
 
@@ -35,7 +33,7 @@ const Profile = () => {
     <CardsContainer>
       <Grid>
         <CardsTitle>Moji favoriti</CardsTitle>
-        {videos.map((v) => (
+        {favs.map((v) => (
           <CardItem
             key={v.id}
             to={`/profile/${v.id}`}

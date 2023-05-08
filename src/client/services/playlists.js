@@ -26,7 +26,7 @@ const fetchVideos = async (playlistId) => {
 };
 
 const fetchFavorites = async (videolist) => {
-  let videos = [];
+  let favs = [];
   let nextPageToken = '';
 
   do {
@@ -37,11 +37,11 @@ const fetchFavorites = async (videolist) => {
     );
 
     const data = response.data;
-    videos = videos.concat(data.items);
+    favs = favs.concat(data.items);
     nextPageToken = data.nextPageToken;
   } while (nextPageToken);
 
-  return videos;
+  return favs;
 };
 
 const playlistService = { getAll, fetchVideos, fetchFavorites };

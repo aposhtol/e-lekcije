@@ -1,6 +1,7 @@
 import { setFavorite } from '../../reducers/userReducer';
 import { setNotification } from '../../reducers/notificationReducer';
 import { useDispatch, useSelector } from 'react-redux';
+import { useLocation, matchPath } from 'react-router-dom';
 import {
   PlayerWindow,
   PlayerTextContainer,
@@ -15,10 +16,14 @@ import {
   Favorited,
 } from '../StyledComponents';
 
-const Player = ({ grade, video, forceLogin, videoId }) => {
+const Player = ({ videos, grade, video, forceLogin, videoId }) => {
   const dispatch = useDispatch();
-  const videos = useSelector((state) => state.videos);
+  //const videos = useSelector((state) => state.videos);
   const user = useSelector((state) => state.user);
+  const { pathname } = useLocation();
+  const isProfilePath = matchPath('/profile/*', pathname);
+
+  //console.log(eval(videoId));
 
   return (
     <>
@@ -30,10 +35,17 @@ const Player = ({ grade, video, forceLogin, videoId }) => {
         height='100%'
       />
       <PlayerTextContainer>
-        <Back as='a' href='/playlists'>
-          <ArrBack />
-          <BackText>Natrag na predmete</BackText>
-        </Back>
+        {isProfilePath ? (
+          <Back as='a' href='/profile'>
+            <ArrBack />
+            <BackText>Natrag na favorite</BackText>
+          </Back>
+        ) : (
+          <Back as='a' href='/playlists'>
+            <ArrBack />
+            <BackText>Natrag na predmete</BackText>
+          </Back>
+        )}
         <div>
           <VideoHeading>
             {video.snippet.title.match(/(?<=- ).+|(?<=-).+/g)}
@@ -63,7 +75,7 @@ const Player = ({ grade, video, forceLogin, videoId }) => {
         ) : user.favorites && user.favorites.includes(videoId) ? (
           <AddFav
             onClick={
-              () => dispatch(setFavorite(user.id, videoId))
+              () => dispatch(setFavorite(user.id, videoId, 'remove'))
               //dispatch(setNotification('Video je već u favoritima', 5000))
             }
           >
@@ -71,7 +83,9 @@ const Player = ({ grade, video, forceLogin, videoId }) => {
             <BackText>Moj favorit</BackText>
           </AddFav>
         ) : (
-          <AddFav onClick={() => dispatch(setFavorite(user.id, videoId))}>
+          <AddFav
+            onClick={() => dispatch(setFavorite(user.id, videoId, 'add'))}
+          >
             <FavIcon />
             <BackText>Dodaj u favorite</BackText>
           </AddFav>

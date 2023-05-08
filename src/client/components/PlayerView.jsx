@@ -47,6 +47,7 @@ const PlayerView = ({ grade }) => {
           forceLogin={handleLogin}
           grade={grade}
           video={video}
+          videos={videos}
           videoId={video.snippet.resourceId.videoId}
         />
         <CommentsLinks

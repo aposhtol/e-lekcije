@@ -16,6 +16,7 @@ import videosReducer from './reducers/videosReducer';
 import userReducer from './reducers/userReducer';
 import notificationReducer from './reducers/notificationReducer';
 import commentsReducer from './reducers/commentsReducer';
+import favReducer from './reducers/favReducer';
 
 const persistConfig = {
   key: 'root',
@@ -31,6 +32,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   notification: notificationReducer,
   comments: commentsReducer,
+  favs: favReducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

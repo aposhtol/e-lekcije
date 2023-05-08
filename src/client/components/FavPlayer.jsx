@@ -14,10 +14,10 @@ const CommentsLinks = loadable(() => import('./playerSection/CommentsLinks'));
 
 const PlayerView = ({ grade }) => {
   const navigate = useNavigate();
-  const videos = useSelector((state) => state.videos);
+  const favs = useSelector((state) => state.favs);
   const message = useSelector((state) => state.notification);
   const id = useParams().id;
-  const video = videos.find((v) => v.id === id);
+  const fav = favs.find((v) => v.id === id);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -36,8 +36,8 @@ const PlayerView = ({ grade }) => {
   return (
     <PlayerContainer>
       <PlaylistsSlide
-        video={video}
-        videos={videos}
+        video={fav}
+        videos={favs}
         videoId='v.id'
         onReplace={handleReplace}
       />
@@ -46,14 +46,11 @@ const PlayerView = ({ grade }) => {
         <Player
           forceLogin={handleLogin}
           grade={grade}
-          video={video}
-          videoId={video.id}
+          video={fav}
+          videos={favs}
+          videoId={fav.id}
         />
-        <CommentsLinks
-          forceLogin={handleLogin}
-          video={video}
-          videoId={video.id}
-        />
+        <CommentsLinks forceLogin={handleLogin} video={fav} videoId={fav.id} />
       </PlayerSection>
       {message && <NoticeWrapper>{message}</NoticeWrapper>}
     </PlayerContainer>
