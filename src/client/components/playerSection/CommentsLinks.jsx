@@ -1,5 +1,6 @@
 import {
   createComment,
+  deleteComment,
   getComments,
   likeComment,
 } from '../../reducers/commentsReducer';
@@ -71,6 +72,13 @@ const CommentsLinks = ({ video, forceLogin, videoId }) => {
     refreshComments();
   };
 
+  const handleDelete = (id) => {
+    dispatch(deleteComment(id));
+    refreshComments();
+  };
+
+  //console.log(comments);
+
   return (
     <>
       {urls ? (
@@ -117,6 +125,7 @@ const CommentsLinks = ({ video, forceLogin, videoId }) => {
         </CommentForm>
         {comments.map((com) => (
           <CommentItem key={com.id}>
+            {console.log(user.id === com.author.id)}
             <CommentItemDiv>
               <CommentAuthor>{com.author.username}</CommentAuthor>
               <TimeSince>
@@ -138,10 +147,10 @@ const CommentsLinks = ({ video, forceLogin, videoId }) => {
                 </LikeWrapper>
               )}
 
-              {!user ? (
-                <ReplyButton onClick={() => forceLogin()}>Odgovori</ReplyButton>
-              ) : (
-                <ReplyButton>Odgovori</ReplyButton>
+              {user.id === com.author.id && (
+                <ReplyButton onClick={() => handleDelete(com.id)}>
+                  Obriši
+                </ReplyButton>
               )}
             </LikeReplyWrapper>
           </CommentItem>
@@ -152,3 +161,11 @@ const CommentsLinks = ({ video, forceLogin, videoId }) => {
 };
 
 export default CommentsLinks;
+
+/*
+{!user ? (
+  <ReplyButton onClick={() => forceLogin()}>Odgovori</ReplyButton>
+) : (
+  <ReplyButton>Odgovori</ReplyButton>
+)}
+*/

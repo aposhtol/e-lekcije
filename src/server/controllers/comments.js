@@ -45,9 +45,6 @@ comments.put('/:id', userExtractor, async (request, response) => {
       { new: true }
     );
     return response.json(updatedComment);
-    /*return response
-      .status(400)
-      .json({ error: 'Već ste označili da vam se sviđa' });*/
   }
 
   const updatedComment = await Comment.findByIdAndUpdate(

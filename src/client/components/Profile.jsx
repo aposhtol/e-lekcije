@@ -10,9 +10,14 @@ import {
   CardImg,
   CardTextArea,
   CardText,
+  VLBack,
+  ArrBack,
+  BackText,
 } from './StyledComponents';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const favs = useSelector((state) => state.favs);
@@ -31,6 +36,10 @@ const Profile = () => {
 
   return (
     <CardsContainer>
+      <VLBack onClick={() => navigate(-1)}>
+        <ArrBack />
+        <BackText>Natrag</BackText>
+      </VLBack>
       <Grid>
         <CardsTitle>Moji favoriti</CardsTitle>
         {favs.map((v) => (

@@ -605,14 +605,14 @@ export const PlayerSection = styled.div`
   }
 `;
 
-export const FSPlayer = styled.div`
+/*export const FSPlayer = styled.div`
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
   z-index: 9999;
-`;
+`;*/
 
 export const PlayerWindow = styled(ReactPlayer)`
   grid-area: 1 / 1 / 2 / 2;
@@ -966,7 +966,7 @@ export const LikeText = styled.span`
 `;
 
 export const ReplyButton = styled(Button)`
-  visibility: hidden;
+  //visibility: hidden;
   font-size: 1.2rem;
   text-decoration: none;
   margin: 0;

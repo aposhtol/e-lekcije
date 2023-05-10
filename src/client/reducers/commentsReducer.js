@@ -56,13 +56,14 @@ export const likeComment = (id) => {
   };
 };
 
-export const deleteComment = (id, name) => {
+export const deleteComment = (id) => {
   return async (dispatch) => {
     try {
-      if (window.confirm(`Delete ${name}?`)) {
+      if (window.confirm('Sigurno želite obrisati komentar?')) {
         await commentService.remove(id);
         const comments = await commentService.get();
         dispatch(setComments(comments));
+        dispatch(setNotification(`Komentar obrisan`, 5000));
       }
     } catch (err) {
       dispatch(setNotification(err.response.data.error, 5000));

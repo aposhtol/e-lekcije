@@ -13,7 +13,6 @@ import {
   AddFav,
   FavIcon,
   Favorited,
-  FSPlayer,
 } from '../StyledComponents';
 
 const Player = ({ videos, video, forceLogin, videoId }) => {
