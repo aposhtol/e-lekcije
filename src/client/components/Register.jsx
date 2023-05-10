@@ -11,6 +11,9 @@ import {
   Input,
   RLButton,
   NoticeWrapper,
+  VLBack,
+  ArrBack,
+  BackText,
 } from './StyledComponents';
 
 const Register = () => {
@@ -45,6 +48,13 @@ const Register = () => {
 
   return (
     <ARLContainer>
+      <VLBack
+        style={{ marginTop: '8rem', marginBottom: '-8rem' }}
+        onClick={() => navigate(-1)}
+      >
+        <ArrBack />
+        <BackText>Natrag</BackText>
+      </VLBack>
       <RLCard>
         <Form onSubmit={handleLogin}>
           <RLTitle>Registracija</RLTitle>

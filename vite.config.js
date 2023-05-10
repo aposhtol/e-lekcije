@@ -20,6 +20,7 @@ export default defineConfig({
         start_url: '/',
         lang: 'hr',
         scope: '/',
+        orientation: 'portrait-primary',
         icons: [
           {
             src: '/android-chrome-192x192.png',
@@ -31,15 +32,9 @@ export default defineConfig({
             sizes: '512x512',
             type: 'image/png',
           },
-          {
-            src: '/android-chrome-512x512.png',
-            sizes: '512x512',
-            type: 'image/png',
-            purpose: 'any maskable',
-          },
         ],
-        theme_color: '#d7eaff',
-        background_color: '#d7eaff',
+        theme_color: '#cfdcea',
+        background_color: '#cfdcea',
         display: 'standalone',
       },
     }),

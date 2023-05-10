@@ -500,6 +500,10 @@ export const PlayerContainer = styled.main`
   margin: 0 auto;
   margin-top: 7rem;
   margin-bottom: 8rem;
+
+  @media only screen and (max-width: 528px) {
+    margin-top: 6rem;
+  }
 `;
 
 export const Slide = styled.div`
@@ -599,6 +603,15 @@ export const PlayerSection = styled.div`
     grid-template-columns: 1fr;
     grid-gap: 1rem;
   }
+`;
+
+export const FSPlayer = styled.div`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
 `;
 
 export const PlayerWindow = styled(ReactPlayer)`
@@ -1152,67 +1165,3 @@ export const RLButton = styled.button`
     background: linear-gradient(0deg, #0004ff 0%, #027efb 100%);
   }
 `;
-
-/*
-import Cogs from '../assets/images/main-cogs.svg';
-
-const appear = keyframes`
-  0% {
-    transform: translateZ(-800px) rotateX(90deg);
-    opacity: 0;
-  }
-  54% {
-    transform: translateZ(-160px) rotateX(87deg);
-    opacity: 1;
-  }
-  100% {
-    transform: translateZ(0) rotateX(0);
-  }
-`;
-
-const slideDiv = keyframes`
-  0% {
-    transform: translateY(-500px);
-    animation-timing-function: ease-in;
-    opacity: 0;
-  }
-  38% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-    opacity: 1;
-  }
-  55% {
-    transform: translateY(-65px);
-    animation-timing-function: ease-in;
-  }
-  72% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-  }
-  81% {
-    transform: translateY(-28px);
-    animation-timing-function: ease-in;
-  }
-  90% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-  }
-  95% {
-    transform: translateY(-8px);
-    animation-timing-function: ease-in;
-  }
-  100% {
-    transform: translateY(0);
-    animation-timing-function: ease-out;
-  }
-`;
-
-animation: ${slideDiv} 1.1s both;
-animation: ${({ animated }) => animated && appear} 0.45s ease-out both;
-animation: ${slideInTop} 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-
-//background-image: url(${Cogs});
-
-animation: ${({ animated }) => animated && scaleIn} 0.5s
-    cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
-*/

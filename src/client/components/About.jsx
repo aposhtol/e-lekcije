@@ -1,8 +1,27 @@
-import { ARLContainer, ATitle, Card, AP, Em } from './StyledComponents';
+import { useNavigate } from 'react-router-dom';
+import {
+  ARLContainer,
+  ATitle,
+  Card,
+  AP,
+  Em,
+  VLBack,
+  ArrBack,
+  BackText,
+} from './StyledComponents';
 
 const About = () => {
+  const navigate = useNavigate();
+
   return (
     <ARLContainer>
+      <VLBack
+        style={{ marginTop: '8rem', marginBottom: '-8rem' }}
+        onClick={() => navigate(-1)}
+      >
+        <ArrBack />
+        <BackText>Natrag</BackText>
+      </VLBack>
       <Card>
         <ATitle>
           e-lekcije je web aplikacija kojoj je namjera lakše snalaženje s

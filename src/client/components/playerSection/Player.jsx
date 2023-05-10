@@ -1,5 +1,4 @@
 import { setFavorite } from '../../reducers/userReducer';
-import { setNotification } from '../../reducers/notificationReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, matchPath } from 'react-router-dom';
 import {
@@ -14,26 +13,38 @@ import {
   AddFav,
   FavIcon,
   Favorited,
+  FSPlayer,
 } from '../StyledComponents';
 
-const Player = ({ videos, grade, video, forceLogin, videoId }) => {
+const Player = ({ videos, video, forceLogin, videoId }) => {
   const dispatch = useDispatch();
-  //const videos = useSelector((state) => state.videos);
   const user = useSelector((state) => state.user);
   const { pathname } = useLocation();
   const isProfilePath = matchPath('/profile/*', pathname);
 
-  //console.log(eval(videoId));
+  const { description } = video.snippet;
+  const favGrade = {};
+
+  if (description.includes('SŠ')) {
+    favGrade.type = 'high';
+  } else if (description.includes('OŠ')) {
+    favGrade.type = 'elem';
+  } else {
+    favGrade.type = '';
+  }
+
+  favGrade.grade = description.match(/\d+/).toString();
 
   return (
     <>
       <PlayerWindow
-        playing={true}
-        controls={true}
+        playing
+        controls
         url={`https://www.youtube.com/watch?v=${videoId}?rel=0`}
         width='100%'
         height='100%'
       />
+
       <PlayerTextContainer>
         {isProfilePath ? (
           <Back as='a' href='/profile'>
@@ -53,10 +64,10 @@ const Player = ({ videos, grade, video, forceLogin, videoId }) => {
           <VideoTitle>
             {videos[0].snippet.title.match(/^.+?(?=, \d|\s\d)/g)}
             {' - '}
-            {grade && grade.grade}. razred{' '}
-            {!grade
+            {favGrade && favGrade.grade}. razred{' '}
+            {!favGrade
               ? null
-              : grade.type == 'elem'
+              : favGrade.type == 'elem'
               ? 'osnovne škole'
               : 'srednje škole'}
           </VideoTitle>

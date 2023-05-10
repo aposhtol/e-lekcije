@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { Container, Flex, FlexItem, Title } from './StyledComponents';
 import bgiHigh from '../assets/images/mid.webp';
 import bgiElem from '../assets/images/elem.webp';
-import { resetGrades, setGrade } from '../reducers/gradesReducer';
 
 const Home = ({ onGradeChange }) => {
   const grades = useSelector((state) => state.grades);
