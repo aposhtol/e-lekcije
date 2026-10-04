@@ -1,10 +1,13 @@
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
-  username: { type: String, required: true },
+  username: { type: String, required: true, unique: true },
   passwordHash: { type: String, required: true },
   favorites: [{ type: String }],
 });
+
+// Index for faster username lookups (login, registration)
+userSchema.index({ username: 1 });
 
 userSchema.set('toJSON', {
   transform: (document, returnedObject) => {

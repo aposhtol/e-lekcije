@@ -5,6 +5,7 @@ import { initializePlaylists } from './reducers/playlistReducer';
 import { Routes, Route } from 'react-router-dom';
 import styled, { createGlobalStyle } from 'styled-components';
 import { isUserLoggedIn } from './reducers/userReducer';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const Header = loadable(() => import('./components/Header'));
 const Footer = loadable(() => import('./components/Footer'));
@@ -47,28 +48,30 @@ const App = () => {
   const handleGradeChange = (grade) => setGrade(grade);
 
   return (
-    <Container>
-      <GlobalStyles />
-      <Header />
-      <Footer />
-      <Routes>
-        <Route path='/' element={<Main onGradeChange={handleGradeChange} />} />
-        <Route
-          path='playlists'
-          element={<Playlists grade={grade} filteredList={filteredList} />}
-        />
-        <Route path='playlists/:id' element={<Videolist grade={grade} />} />
-        <Route
-          path='playlists/:id/:id'
-          element={<PlayerView grade={grade} />}
-        />
-        <Route path='register' element={<Register />} />
-        <Route path='login' element={<Login />} />
-        <Route path='about' element={<About />} />
-        <Route path='profile' element={<Profile />} />
-        <Route path='profile/:id' element={<FavPlayer grade={grade} />} />
-      </Routes>
-    </Container>
+    <ErrorBoundary>
+      <Container>
+        <GlobalStyles />
+        <Header />
+        <Footer />
+        <Routes>
+          <Route path='/' element={<Main onGradeChange={handleGradeChange} />} />
+          <Route
+            path='playlists'
+            element={<Playlists grade={grade} filteredList={filteredList} />}
+          />
+          <Route path='playlists/:id' element={<Videolist grade={grade} />} />
+          <Route
+            path='playlists/:id/:id'
+            element={<PlayerView grade={grade} />}
+          />
+          <Route path='register' element={<Register />} />
+          <Route path='login' element={<Login />} />
+          <Route path='about' element={<About />} />
+          <Route path='profile' element={<Profile />} />
+          <Route path='profile/:id' element={<FavPlayer grade={grade} />} />
+        </Routes>
+      </Container>
+    </ErrorBoundary>
   );
 };
 

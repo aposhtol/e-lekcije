@@ -10,6 +10,10 @@ const commentSchema = new mongoose.Schema({
   date: Date,
 });
 
+// Indexes for faster queries
+commentSchema.index({ video: 1, date: -1 }); // For fetching comments by video, sorted by date
+commentSchema.index({ author: 1 }); // For fetching user's comments
+
 commentSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString();
